@@ -1,15 +1,20 @@
-CREATE TABLE jugador(
-    id int(3) PRIMARY KEY,
-    nombre varchar(20),
-    email varchar(20) REQUIRED,
-    partidasJugadas int(3),
-    partidasGanadas int(3)
+CREATE DATABASE buscaminas;
+
+USE buscaminas;
+
+CREATE TABLE jugador (
+    id INT(3) PRIMARY KEY,
+    nombre VARCHAR(20),
+    email VARCHAR(20),
+    partidasJugadas INT(3),
+    partidasGanadas INT(3)
 );
 
-CREATE TABLE partida(
-    id varchar(3) PRIMARY KEY,
-    idJugador int(3),
-    tableroSolucion varchar(20),
-    tableroJugador varchar(20),
-    fin int(2)
+CREATE TABLE partida (
+    id VARCHAR(3) PRIMARY KEY,
+    idJugador INT(3),
+    tableroSolucion VARCHAR(20),
+    tableroJugador VARCHAR(20),
+    fin INT(2),
+    FOREIGN KEY (idJugador) REFERENCES jugador(id)
 );
