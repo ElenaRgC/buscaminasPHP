@@ -55,4 +55,13 @@ class Jugador {
 	public function setPartidasGanadas($value) {
 		$this->partidasGanadas = $value;
 	}
+
+	public function __toString() {
+    return "ID: " . $this->id . "<br>" .
+           "Nombre: " . $this->nombre . "<br>" .
+           "Email: " . $this->email . "<br>" .
+           "Partidas Jugadas: " . $this->partidasJugadas . "<br>" .
+           "Partidas Ganadas: " . $this->partidasGanadas . "<br>";
+}
+
 }
