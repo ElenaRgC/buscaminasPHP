@@ -5,7 +5,7 @@ Desafio 1 de la asignatura Desarrollo Web en Servidores.
 ## Objetivos
 
 -   [x] Definir la Base de Datos.
--   [ ] Establecer una conexión a la Base de Datos.
+-   [x] Establecer una conexión a la Base de Datos.
 -   [ ] Crear las clases Usuario, Partida y Factoria (sin funciones).
 -   [ ] Crear un login funcional (incluido hash). Diferenciar Admin.
 -   [ ] CRUD de Usuarios en el panel de Administración.
