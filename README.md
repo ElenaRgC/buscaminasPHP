@@ -7,6 +7,7 @@ Desafio 1 de la asignatura Desarrollo Web en Servidores.
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
 -   [x] Crear las clases Usuario, Partida (sin funciones) y Factoria.
+-   [x] Definir la estructura del servicio.
 -   [ ] Crear un login funcional (incluido hash). Diferenciar Admin.
 -   [ ] CRUD de Usuarios en el panel de Administración.
 -   [ ] Crear un tablero, guardarlo en la BBDD y retornarlo.
