@@ -9,4 +9,8 @@ class Factoria {
         return new Jugador($id, $nombre, $email, $partidasJugadas, $partidasGanadas);
     }
 
+    public static function crearPartida($id, $idJugador, $tableroSolucion, $tableroJugador, $fin) {
+        return new Partida($id, $idJugador, $tableroSolucion, $tableroJugador, $fin);
+    }
+
 }
