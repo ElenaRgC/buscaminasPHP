@@ -6,14 +6,16 @@ class Jugador {
     public $email;
     public $partidasJugadas;
     public $partidasGanadas;
+	public $esAdmin;
 
-	public function __construct($id, $nombre, $email, $partidasJugadas, $partidasGanadas) {
+	public function __construct($id, $nombre, $email, $partidasJugadas, $partidasGanadas,$esAdmin) {
 
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->email = $email;
 		$this->partidasJugadas = $partidasJugadas;
 		$this->partidasGanadas = $partidasGanadas;
+		$this->esAdmin = $esAdmin;
 	}
 
 	public function getId() {
@@ -54,6 +56,14 @@ class Jugador {
 
 	public function setPartidasGanadas($value) {
 		$this->partidasGanadas = $value;
+	}
+
+	public function getEsAdmin() {
+		return $this->esAdmin;
+	}
+
+	public function setEsAdmin($value) {
+		$this->esAdmin = $value;
 	}
 
 	public function __toString() {
