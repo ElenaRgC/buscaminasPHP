@@ -44,8 +44,8 @@ if ($usuario instanceof Jugador) {
                 $mes = 'No autorizado.';
                 echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
+            break;
 
-            // no break
         case 'jugar':
             unset($args[1]);
             switch ($requestMethod) {
@@ -75,7 +75,7 @@ if ($usuario instanceof Jugador) {
                         echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
                     }
 
-                    // no break
+                    break;
                 default:
                     $cod = 405;
                     $mes = 'Verbo no soportado.';

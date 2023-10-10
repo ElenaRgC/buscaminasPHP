@@ -16,11 +16,15 @@ class Controlador
                 $cod = 401;
                 $mes = 'Usuario o contraseña incorrectos.';
 
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
                 return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
         } else {
             $cod = 500;
             $mes = 'Error en la base de datos.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
@@ -34,10 +38,14 @@ class Controlador
             $cod = 200;
             $mes = 'OK';
 
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Jugadores' => $jugadores]);
         } else {
             $cod = 500;
             $mes = 'Error';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
