@@ -25,7 +25,7 @@ class Controlador
         }
     }
 
-    public static function getJugadores()
+    public static function getJugadores($datosRecibidos)
     {
         $jugadores = Conexion::getJugadores();
 
