@@ -18,7 +18,7 @@ $usuario = Controlador::login($data);
 if ($usuario instanceof Jugador) {
     switch ($args[1]) {
         case 'admin' :
-            if ($jugador->getEsAdmin()) {
+            if ($usuario->getEsAdmin()) {
                 switch ($requestMethod) {
                     case 'GET':
                         echo Controlador::getJugadores($data);

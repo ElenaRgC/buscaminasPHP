@@ -67,17 +67,17 @@ class Conexion
         $stmt = self::$conexion->prepare($query);
 
         try {
-            $stmt->execute();
             $stmt->bind_param('s', $email);
+            $stmt->execute();
             $resultados = $stmt->get_result();
 
             while ($fila = $resultados->fetch_array()) {
-                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
+                $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
             }
 
             $resultados->free_result();
 
-            return $p;
+            return $j;
         } catch (Exception $e) {
             return 0;
         } finally {
