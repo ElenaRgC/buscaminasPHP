@@ -27,14 +27,14 @@ La Base de Datos sigue la siguiente estructura:
 
 ### Jugador
 
-| ID     | Nombre      | email       | partidasJugadas | partidasGanadas |
-| ------ | ----------- | ----------- | --------------- | --------------- |
-| int(3) | varchar(20) | varchar(20) | int(3)          | int(3)          |
+| ID     | Nombre   | email   | pass    | partidasJugadas | partidasGanadas |
+| ------ | -------- | ------- | ------- | --------------- | --------------- |
+| int(3) | varchar) | varchar | varchar | int(3)          | int(3)          |
 
 ### Partida
 
 | ID     | IDjugador | tableroSolucion | tableroJugador | fin    |
 | ------ | --------- | --------------- | -------------- | ------ |
-| int(3) | int(3)    | varchar(20)     | varchar(20)    | int(2) |
+| int(3) | int(3)    | varchar         | varchar        | int(2) |
 
 Puede crearse la base de datos con el fichero `database_structure.sql`.
