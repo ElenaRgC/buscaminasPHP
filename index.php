@@ -17,7 +17,15 @@ switch ($args[1]) {
     case 'admin' :
         switch ($requestMethod) {
             case 'GET':
-                Controlador::getJugadores($datosRecibidos);
+                if (Controlador::login($data)[0] && Controlador::login($data)[1]) {
+                    echo Controlador::getJugadores($data);
+                } elseif (Controlador::login($data)[0] && !Controlador::login($data)[1]) {
+                    $cod = 401;
+                    $mes = 'No autorizado.';
+                    echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                } else {
+                    echo Controlador::login($data);
+                }
                 break;
             case 'POST':
                 // Añadir nuevo jugador

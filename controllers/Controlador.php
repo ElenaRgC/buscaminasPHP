@@ -19,11 +19,16 @@ class Controlador
 
                 return [true, $esAdmin];
             } else {
-                $cod = 500;
-                $mes = 'Error';
+                $cod = 401;
+                $mes = 'Usuario o contraseña incorrectos.';
 
                 return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
+        } else {
+            $cod = 500;
+            $mes = 'Error en la base de datos.';
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
 
@@ -31,22 +36,16 @@ class Controlador
     {
         $jugadores = Conexion::getJugadores();
 
-        $esAdmin = Controlador::login($datosRecibidos);
+        if ($jugadores[0] instanceof Jugador) {
+            $cod = 200;
+            $mes = 'OK';
 
-        if ($esAdmin[0] && $esAdmin[1]) {
-            // [0] login correcto [1] es Administrador
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Jugadores' => $jugadores]);
+        } else {
+            $cod = 500;
+            $mes = 'Error';
 
-            if ($jugadores[0] instanceof Jugador) {
-                $cod = 200;
-                $mes = 'OK';
-
-                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Jugadores' => $jugadores]);
-            } else {
-                $cod = 500;
-                $mes = 'Error';
-
-                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
-            }
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
 }
