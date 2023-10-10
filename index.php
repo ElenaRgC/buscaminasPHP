@@ -17,7 +17,7 @@ switch ($args[1]) {
     case 'admin' :
         switch ($requestMethod) {
             case 'GET':
-                // Recibir lista jugadores
+                Controlador::getJugadores($datosRecibidos);
                 break;
             case 'POST':
                 // Añadir nuevo jugador
