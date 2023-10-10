@@ -28,9 +28,10 @@ class Conexion
         self::$conexion->close();
     }
 
-// JUGADOR -------------------------------------
+    // JUGADOR -------------------------------------
 
-    public static function getJugadores() {
+    public static function getJugadores()
+    {
         self::$conexion = self::conectar();
 
         $query = 'SELECT * FROM jugador';
@@ -42,7 +43,7 @@ class Conexion
             $resultados = $stmt->get_result();
 
             while ($fila = $resultados->fetch_array()) {
-                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4]);
+                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5]);
             }
 
             $resultados->free_result();
