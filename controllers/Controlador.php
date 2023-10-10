@@ -10,7 +10,7 @@ class Controlador
         $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);
 
         if ($jugador instanceof Jugador) {
-            if ($jugador->getEmail() == $datosRecibidos['email'] && $jugador->getPass() == $datosRecibidos['pass']) {
+            if ($jugador->getEmail() == $datosRecibidos['email'] && $jugador->getPass() == md5($datosRecibidos['pass'])) {
                 return $jugador;
             } else {
                 $cod = 401;
