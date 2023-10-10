@@ -41,14 +41,16 @@ class Conexion
         try {
             $stmt->execute();
             $resultados = $stmt->get_result();
+            $jugadores = [];
 
             while ($fila = $resultados->fetch_array()) {
-                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
+                $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
+                $jugadores[] = $j;
             }
 
             $resultados->free_result();
 
-            return $p;
+            return $jugadores;
         } catch (Exception $e) {
             return 0;
         } finally {
