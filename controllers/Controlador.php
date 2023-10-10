@@ -11,13 +11,7 @@ class Controlador
 
         if ($jugador instanceof Jugador) {
             if ($jugador->getEmail() == $datosRecibidos['email'] && $jugador->getPass() == $datosRecibidos['pass']) {
-                $esAdmin = false;
-
-                if ($jugador->getEsAdmin()) {
-                    $esAdmin = true;
-                }
-
-                return [true, $esAdmin];
+                return $jugador;
             } else {
                 $cod = 401;
                 $mes = 'Usuario o contraseña incorrectos.';
