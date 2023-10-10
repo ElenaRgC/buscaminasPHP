@@ -38,3 +38,15 @@ La Base de Datos sigue la siguiente estructura:
 | int(3) | int(3)    | varchar(20)     | varchar(20)    | int(2) |
 
 Puede crearse la base de datos con el fichero `database_structure.sql`.
+
+## Formato de JSON esperado
+
+```json
+{
+    email: tucorreo@email.com,
+    pass: tucontraseña,
+    casilla: posicion,
+}
+```
+
+La `posicion` de la casilla es opcional (no es necesaria para las funciones de administrador o crear partidas, por ejemplo).
