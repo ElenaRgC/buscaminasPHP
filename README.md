@@ -8,7 +8,7 @@ Desafio 1 de la asignatura Desarrollo Web en Servidores.
 -   [x] Establecer una conexión a la Base de Datos.
 -   [x] Crear las clases Usuario, Partida (sin funciones) y Factoria.
 -   [x] Definir la estructura del servicio.
--   [ ] Crear un login funcional (incluido hash). Diferenciar Admin.
+-   [x] Crear un login funcional (incluido hash). Diferenciar Admin.
 -   [ ] CRUD de Usuarios en el panel de Administración.
 -   [ ] Crear un tablero, guardarlo en la BBDD y retornarlo.
 -   [ ] Comprobar partidas abiertas antes de crear un tablero nuevo.
@@ -27,15 +27,15 @@ La Base de Datos sigue la siguiente estructura:
 
 ### Jugador
 
-| ID     | Nombre      | email       | partidasJugadas | partidasGanadas |
-| ------ | ----------- | ----------- | --------------- | --------------- |
-| int(3) | varchar(20) | varchar(20) | int(3)          | int(3)          |
+| ID     | Nombre       | email        | pass         | partidasJugadas | partidasGanadas |
+| ------ | ------------ | ------------ | ------------ | --------------- | --------------- |
+| int(3) | varchar(100) | varchar(100) | varchar(100) | int(3)          | int(3)          |
 
 ### Partida
 
 | ID     | IDjugador | tableroSolucion | tableroJugador | fin    |
 | ------ | --------- | --------------- | -------------- | ------ |
-| int(3) | int(3)    | varchar(20)     | varchar(20)    | int(2) |
+| int(3) | int(3)    | varchar(100)    | varchar(100)   | int(2) |
 
 Puede crearse la base de datos con el fichero `database_structure.sql`.
 
@@ -43,9 +43,9 @@ Puede crearse la base de datos con el fichero `database_structure.sql`.
 
 ```json
 {
-    email: tucorreo@email.com,
-    pass: tucontraseña,
-    casilla: posicion,
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "casilla": "posicion"
 }
 ```
 
