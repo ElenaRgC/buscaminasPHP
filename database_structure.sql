@@ -6,6 +6,7 @@ CREATE TABLE jugador (
     id INT(3) PRIMARY KEY,
     nombre VARCHAR(20),
     email VARCHAR(20),
+    pass VARCHAR,
     partidasJugadas INT(3),
     partidasGanadas INT(3),
     es_admin BOOLEAN
