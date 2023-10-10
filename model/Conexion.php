@@ -43,7 +43,7 @@ class Conexion
             $resultados = $stmt->get_result();
 
             while ($fila = $resultados->fetch_array()) {
-                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5]);
+                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
             }
 
             $resultados->free_result();
