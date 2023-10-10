@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__.'\model\Conexion.php';
-require_once __DIR__.'\model\Controlador.php';
+require_once '\model\Conexion.php';
+require_once '\model\Controlador.php';
 
 header('Content-Type:application/json');
 
@@ -15,7 +15,7 @@ unset($args[0]);
 
 switch ($args[1]) {
     case 'admin' :
-        switch($requestMethod) {
+        switch ($requestMethod) {
             case 'GET':
                 // Recibir lista jugadores
                 break;
@@ -29,23 +29,22 @@ switch ($args[1]) {
                 // Eliminar jugador
                 break;
             default:
-            $cod = 405;
-            $mes = 'Verbo no soportado.';
+                $cod = 405;
+                $mes = 'Verbo no soportado.';
 
-            echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
         break;
 
     case 'jugar':
         unset($args[1]);
-        switch($requestMethod) {
-            
+        switch ($requestMethod) {
             case 'GET':
-                 switch (count($args)) {
+                switch (count($args)) {
                     case 0:
                         // Crear partida nueva por defecto
                         break;
-                    case 2;
+                    case 2:
                         // Crear partida nueva con tamaño definido
                         break;
                     default:
@@ -53,7 +52,7 @@ switch ($args[1]) {
                         $mes = 'Argumentos inválidos.';
 
                         echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
-                 }
+                }
                 break;
 
             case 'POST':
@@ -61,21 +60,22 @@ switch ($args[1]) {
                     // Revelar una casilla
                 } else {
                     $cod = 400;
-                        $mes = 'Argumentos inválidos.';
+                    $mes = 'Argumentos inválidos.';
 
-                        echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                    echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
                 }
-                
-            default:
-            $cod = 405;
-            $mes = 'Verbo no soportado.';
 
-            echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                // no break
+            default:
+                $cod = 405;
+                $mes = 'Verbo no soportado.';
+
+                echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
         break;
 
     case 'pass':
-        if($requestMethod == 'PUT') {
+        if ($requestMethod == 'PUT') {
             // Solicitar contraseña nueva
         } else {
             $cod = 405;
@@ -86,7 +86,7 @@ switch ($args[1]) {
         break;
 
     case 'ranking':
-        if($requestMethod == 'GET') {
+        if ($requestMethod == 'GET') {
             // Mostar nombres de usuario ordenados por número de victorias
         }
         break;
@@ -95,5 +95,5 @@ switch ($args[1]) {
         $cod = 400;
         $mes = 'Argumentos inválidos.';
 
-         echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
 }
