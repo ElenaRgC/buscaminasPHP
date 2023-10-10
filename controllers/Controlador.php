@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__.'..\model\Conexion.php';
-require_once __DIR__.'..\model\Factoria.php';
+require_once __DIR__.'\..\auxiliar\Conexion.php';
+require_once __DIR__.'\..\auxiliar\Factoria.php';
 
 class Controlador
 {

@@ -1,7 +1,7 @@
 <?php
 
-require_once '\model\Conexion.php';
-require_once '\model\Controlador.php';
+include_once 'auxiliar/Conexion.php';
+include_once 'controllers/Controlador.php';
 
 header('Content-Type:application/json');
 
