@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__.'\..\Constantes.php';
-require_once __DIR__.'\..\Factoria.php';
+require_once 'Constantes.php';
+require_once 'Factoria.php';
 
 class Conexion
 {
@@ -28,9 +28,10 @@ class Conexion
         self::$conexion->close();
     }
 
-// JUGADOR -------------------------------------
+    // JUGADOR -------------------------------------
 
-    public static function getJugadores() {
+    public static function getJugadores()
+    {
         self::$conexion = self::conectar();
 
         $query = 'SELECT * FROM jugador';
