@@ -43,39 +43,12 @@ class Conexion
             $resultados = $stmt->get_result();
 
             while ($fila = $resultados->fetch_array()) {
-                $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
+                $p = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4]);
             }
 
             $resultados->free_result();
 
-            return $j;
-        } catch (Exception $e) {
-            return 0;
-        } finally {
-            self::desconectar();
-        }
-    }
-
-    public static function getJugadorFromEmail($datosRecibidos)
-    {
-        self::$conexion = self::conectar();
-
-        $query = 'SELECT * FROM jugador WHERE email = ?';
-
-        $stmt = self::$conexion->prepare($query);
-        $stmt->bind_param('s', $datosRecibidos['email']);
-
-        try {
-            $stmt->execute();
-            $resultados = $stmt->get_result();
-
-            while ($fila = $resultados->fetch_array()) {
-                $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
-            }
-
-            $resultados->free_result();
-
-            return $j;
+            return $p;
         } catch (Exception $e) {
             return 0;
         } finally {
