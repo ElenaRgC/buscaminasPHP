@@ -27,9 +27,9 @@ La Base de Datos sigue la siguiente estructura:
 
 ### Jugador
 
-| ID     | Nombre      | email       | partidasJugadas | partidasGanadas |
-| ------ | ----------- | ----------- | --------------- | --------------- |
-| int(3) | varchar(20) | varchar(20) | int(3)          | int(3)          |
+| ID     | Nombre      | email       | pass    | partidasJugadas | partidasGanadas |
+| ------ | ----------- | ----------- | ------- | --------------- | --------------- |
+| int(3) | varchar(20) | varchar(20) | varchar | int(3)          | int(3)          |
 
 ### Partida
 
