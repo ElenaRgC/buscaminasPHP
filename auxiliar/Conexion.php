@@ -84,4 +84,28 @@ class Conexion
             self::desconectar();
         }
     }
+
+    public static function insertJugador($jugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'INSERT INTO jugador (nombre, email, pass) VALUES (?,?,?)';
+
+        $stmt = self::$conexion->prepare($query);
+
+        $nombre = $jugador->getNombre();
+        $email = $jugador->getEmail();
+        $pass = $jugador->getPass();
+
+        try {
+            $stmt->bind_param('sss', $nombre, $email, $pass);
+            $stmt->execute();
+
+            return 1;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
 }

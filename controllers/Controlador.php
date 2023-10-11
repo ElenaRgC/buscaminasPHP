@@ -30,7 +30,7 @@ class Controlador
         }
     }
 
-    public static function getJugadores($datosRecibidos)
+    public static function getJugadores()
     {
         $jugadores = Conexion::getJugadores();
 
@@ -41,6 +41,32 @@ class Controlador
             header('HTTP/1.1 '.$cod.' '.$mes);
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Jugadores' => $jugadores]);
+        } else {
+            $cod = 500;
+            $mes = 'Error';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
+    public static function insertJugador($datosRecibidos)
+    {
+        $jugador = Factoria::crearJugador(0,
+            $datosRecibidos['nombre'],
+            $datosRecibidos['user-email'],
+            md5($datosRecibidos['user-pass']),
+            0, 0, 0
+        );
+
+        if (Conexion::insertJugador($jugador)) {
+            $cod = 201;
+            $mes = 'Jugador insertado';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         } else {
             $cod = 500;
             $mes = 'Error';
