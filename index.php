@@ -24,7 +24,7 @@ if ($usuario instanceof Jugador) {
                         echo Controlador::getJugadores();
                         break;
                     case 'POST':
-                        // Añadir nuevo jugador
+                        echo Controlador::insertJugador($data);
                         break;
                     case 'PUT':
                         // Modificar datos jugador
