@@ -30,7 +30,7 @@ if ($usuario instanceof Jugador) {
                         // Modificar datos jugador
                         break;
                     case 'DELETE':
-                        // Eliminar jugador
+                        echo Controlador::deleteJugador($data['id']);
                         break;
                     default:
                         $cod = 405;
