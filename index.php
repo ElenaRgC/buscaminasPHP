@@ -21,7 +21,7 @@ if ($usuario instanceof Jugador) {
             if ($usuario->getEsAdmin()) {
                 switch ($requestMethod) {
                     case 'GET':
-                        echo Controlador::getJugadores($data);
+                        echo Controlador::getJugadores();
                         break;
                     case 'POST':
                         // Añadir nuevo jugador
@@ -30,7 +30,7 @@ if ($usuario instanceof Jugador) {
                         // Modificar datos jugador
                         break;
                     case 'DELETE':
-                        // Eliminar jugador
+                        echo Controlador::deleteJugador($data['id']);
                         break;
                     default:
                         $cod = 405;
