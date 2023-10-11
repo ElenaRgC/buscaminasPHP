@@ -30,7 +30,7 @@ class Controlador
         }
     }
 
-    public static function getJugadores($datosRecibidos)
+    public static function getJugadores()
     {
         $jugadores = Conexion::getJugadores();
 
@@ -44,6 +44,25 @@ class Controlador
         } else {
             $cod = 500;
             $mes = 'Error';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
+    public static function deleteJugador($id)
+    {
+        if (Conexion::deleteJugador($id)) {
+            $cod = 200;
+            $mes = 'Usuario eliminado.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        } else {
+            $cod = 500;
+            $mes = 'Error en la base de datos.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 

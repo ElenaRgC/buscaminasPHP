@@ -84,4 +84,24 @@ class Conexion
             self::desconectar();
         }
     }
+
+    public static function deleteJugador($id)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'DELETE FROM jugador WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        } finally {
+            self::desconectar();
+        }
+    }
 }
