@@ -51,7 +51,6 @@ class Controlador
         }
     }
 
-
     public static function insertJugador($datosRecibidos)
     {
         $jugador = Factoria::crearJugador(0,
@@ -64,7 +63,11 @@ class Controlador
         if (Conexion::insertJugador($jugador)) {
             $cod = 201;
             $mes = 'Jugador insertado';
-          } else {
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        } else {
             $cod = 500;
             $mes = 'Error en la base de datos.';
 
@@ -73,7 +76,7 @@ class Controlador
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
-          
+
     public static function deleteJugador($id)
     {
         if (Conexion::deleteJugador($id)) {

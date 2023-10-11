@@ -104,6 +104,8 @@ class Conexion
             return 1;
         } catch (Exception $e) {
             return 0;
+        }
+    }
 
     public static function deleteJugador($id)
     {
@@ -120,7 +122,6 @@ class Conexion
             return true;
         } catch (Exception $e) {
             return false;
-
         } finally {
             self::desconectar();
         }
