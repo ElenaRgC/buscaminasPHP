@@ -13,7 +13,7 @@ CREATE TABLE jugador (
 );
 
 CREATE TABLE partida (
-    id INT(3) PRIMARY KEY,
+    id INT(3) AUTO_INCREMENT PRIMARY KEY,
     idJugador INT(3),
     tableroSolucion VARCHAR(100),
     tableroJugador VARCHAR(100),

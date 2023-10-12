@@ -2,6 +2,7 @@
 
 include_once 'auxiliar/Conexion.php';
 include_once 'controllers/Controlador.php';
+include_once 'controllers/ControladorPartida.php';
 
 header('Content-Type:application/json');
 
@@ -48,14 +49,15 @@ if ($usuario instanceof Jugador) {
 
         case 'jugar':
             unset($args[1]);
+            $idJugador = Controlador::getIdJugadorLogeado($data);
             switch ($requestMethod) {
                 case 'GET':
                     switch (count($args)) {
                         case 0:
-                            // Crear partida nueva por defecto
+                            echo ControladorPartida::insertPartida($idJugador);
                             break;
                         case 2:
-                            // Crear partida nueva con tamaño definido
+                            echo ControladorPartida::insertPartida($idJugador, $args[2], $args[3]);
                             break;
                         default:
                             $cod = 400;
