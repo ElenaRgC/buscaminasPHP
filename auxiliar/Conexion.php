@@ -126,4 +126,29 @@ class Conexion
             self::desconectar();
         }
     }
+
+    // PARTIDA -------------------------------------
+
+    public static function insertPartida($partida)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'INSERT INTO partida (idJugador, tableroSolucion, tableroJugador, fin) VALUES (?, ?, ?, ?);';
+
+        $stmt = self::$conexion->prepare($query);
+
+        $idJugador = $partida->getIdJugador();
+        $tableroSolucion = $partida->getTableroSolucion();
+        $tableroJugador = $partida->getTableroJugador();
+        $fin = $partida->getFin();
+
+        try {
+            $stmt->bind_param('issi', $idJugador, $tableroSolucion, $tableroJugador, $fin);
+            $stmt->execute();
+
+            return 1;
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
 }
