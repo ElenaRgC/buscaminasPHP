@@ -3,7 +3,7 @@
 require_once __DIR__.'\..\auxiliar\Conexion.php';
 require_once __DIR__.'\..\auxiliar\Factoria.php';
 
-class Controlador
+class ControladorJugador
 {
     public static function login($datosRecibidos)
     {
