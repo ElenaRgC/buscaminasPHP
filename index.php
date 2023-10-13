@@ -13,7 +13,7 @@ $data = json_decode($datosRecibidos, true);
 $args = explode('/', $paths);
 unset($args[0]);
 
-$usuario = Controlador::login($data);
+$usuario = ControladorJugador::login($data);
 
 if ($usuario instanceof Jugador) {
     switch ($args[1]) {
@@ -21,7 +21,7 @@ if ($usuario instanceof Jugador) {
             if ($usuario->getEsAdmin()) {
                 switch ($requestMethod) {
                     case 'GET':
-                        echo Controlador::getJugadores($data);
+                        echo ControladorJugador::getJugadores($data);
                         break;
                     case 'POST':
                         // Añadir nuevo jugador
