@@ -7,22 +7,32 @@ class ControladorPartida
 {
     public static function insertPartida($idJugador, $longitud = 10, $bombas = 2)
     {
-        $partida = Factoria::crearPartidaNueva($idJugador, $longitud, $bombas);
+        $partidasAbiertas = ControladorPartida::getPartidasAbiertas();
 
-        if (Conexion::insertPartida($partida)) {
-            $cod = 201;
-            $mes = 'Partida creada';
+        if ($partidasAbiertas == 0) {
+            $partida = Factoria::crearPartidaNueva($idJugador, $longitud, $bombas);
 
-            header('HTTP/1.1 '.$cod.' '.$mes);
+            if (Conexion::insertPartida($partida)) {
+                $cod = 201;
+                $mes = 'Partida creada';
 
-            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
+                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+            } else {
+                $cod = 500;
+                $mes = 'Error en la base de datos.';
+
+                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                header('HTTP/1.1 '.$cod.' '.$mes);
+            }
         } else {
-            $cod = 500;
-            $mes = 'Error en la base de datos.';
+            $cod = 204;
+            $mes = 'Ya hay partidas abiertas.';
 
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
+            'Partidas Abiertas' => $partidasAbiertas[0], 'Rutas' => $partidasAbiertas[1]]);
             header('HTTP/1.1 '.$cod.' '.$mes);
-
-            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
 
@@ -37,25 +47,14 @@ class ControladorPartida
                 $tablero = $tablero->getTableroSolucion();
 
                 $rutas[] = [
-                    'Longitud' => count($tablero),
+                    'Longitud' => strlen($tablero),
                     'Bombas' => substr_count($tablero, '*'),
                 ];
             }
 
-            $cod = 200;
-            $mes = 'OK';
-
-            header('HTTP/1.1 '.$cod.' '.$mes);
-
-            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
-            'Partidas Abiertas' => $partidas, 'Rutas' => $rutas]);
+            return [$partidas, $rutas];
         } else {
-            $cod = 500;
-            $mes = 'Error';
-
-            header('HTTP/1.1 '.$cod.' '.$mes);
-
-            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+            return 0;
         }
     }
 }
