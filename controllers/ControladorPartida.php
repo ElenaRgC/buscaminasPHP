@@ -25,4 +25,37 @@ class ControladorPartida
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
+
+    public static function getPartidasAbiertas()
+    {
+        $partidas = Conexion::getPartidasAbiertas();
+
+        if ($partidas[0] instanceof Partida) {
+            $rutas = [];
+
+            foreach ($partidas as $tablero) {
+                $tablero = $tablero->getTableroSolucion();
+
+                $rutas[] = [
+                    'Longitud' => count($tablero),
+                    'Bombas' => substr_count($tablero, '*'),
+                ];
+            }
+
+            $cod = 200;
+            $mes = 'OK';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
+            'Partidas Abiertas' => $partidas, 'Rutas' => $rutas]);
+        } else {
+            $cod = 500;
+            $mes = 'Error';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
 }
