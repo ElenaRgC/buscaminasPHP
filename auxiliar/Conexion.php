@@ -151,4 +151,31 @@ class Conexion
             return 0;
         }
     }
+
+    public static function getPartidasAbiertas()
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM partida WHERE fin = 0';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $partidas = [];
+
+            while ($fila = $result->fetch_assoc()) {
+                $p = Factoria::crearPartida($fila['id'], $fila['idJugador'], $fila['tableroSolucion'], $fila['tableroJugador'], $fila['fin']);
+                $partidas[] = $p;
+            }
+
+            return $partidas;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
 }
