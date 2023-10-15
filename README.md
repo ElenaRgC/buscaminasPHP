@@ -2,17 +2,17 @@
 
 Desafio 1 de la asignatura Desarrollo Web en Servidores.
 
-## Objetivos ![](https://geps.dev/progress/58)
+## Objetivos ![](https://geps.dev/progress/67)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
 -   [x] Crear las clases Usuario, Partida (sin funciones) y Factoria.
 -   [x] Definir la estructura del servicio.
 -   [x] Crear un login funcional (incluido hash). Diferenciar Admin.
--   [ ] CRUD de Usuarios en el panel de Administración.
+-   [x] CRUD de Usuarios en el panel de Administración.
     -   [x] Crear
     -   [x] Leer
-    -   [ ] Modificar
+    -   [x] Modificar
     -   [x] Eliminar
 -   [x] Crear un tablero, guardarlo en la BBDD y retornarlo.
 -   [x] Comprobar partidas abiertas antes de crear un tablero nuevo.
@@ -31,9 +31,9 @@ La Base de Datos sigue la siguiente estructura:
 
 ### Jugador
 
-| ID     | Nombre       | email        | pass         | partidasJugadas | partidasGanadas |
-| ------ | ------------ | ------------ | ------------ | --------------- | --------------- |
-| int(3) | varchar(100) | varchar(100) | varchar(100) | int(3)          | int(3)          |
+| ID     | Nombre       | email        | pass         | partidasJugadas | partidasGanadas | es-admin |
+| ------ | ------------ | ------------ | ------------ | --------------- | --------------- | -------- |
+| int(3) | varchar(100) | varchar(100) | varchar(100) | int(3)          | int(3)          | boolean  |
 
 ### Partida
 
@@ -43,11 +43,11 @@ La Base de Datos sigue la siguiente estructura:
 
 Puede crearse la base de datos con el fichero `database_structure.sql`.
 
-## JSON y rutas esperadas
+## Rutas admitidas y JSON esperados
 
 ### GET /admin
 
-Para leer la lista de jugadores en la BBDD.
+- Para leer la lista de jugadores en la BBDD.
 
 ```json
 {
@@ -60,7 +60,7 @@ Como en el resto de casos en la ruta /admin, sólo serán satisfactorias las lla
 
 ### POST /admin
 
-Para crear un nuevo usuario.
+- Para crear un nuevo usuario.
 
 ```json
 {
@@ -75,9 +75,38 @@ Para crear un nuevo usuario.
 El jugador creado no será administrador y comenzará con 0 partidas jugadas y ganadas.
 Su contraseña se almacenará en la BBDD con un hash MD5.
 
+### PUT /admin
+
+- Para modificar el nombre y el email de un usuario.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "id": "IDusuario",
+    "nombre": "nombreUsuario",
+    "user-email": "email@usuario.com",
+}
+```
+
+No se modificarán ni su id o número de partidas jugadas y/o ganadas.
+
+- Para modificar el nombre y el email de un usuario.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "id": "IDusuario",
+    "user-pass": "nuevaConstraseña",
+}
+```
+
+Su contraseña se almacenará en la BBDD con un hash MD5.
+
 ### DELETE /admin
 
-Para eliminar un usuario dada su ID.
+- Para eliminar un usuario dada su ID.
 
 ```json
 {
@@ -89,7 +118,7 @@ Para eliminar un usuario dada su ID.
 
 ### GET /jugar
 
-Para crear una partida de longitud y bombas por defecto.
+- Para crear una partida de longitud y bombas por defecto.
 
 ```json
 {
@@ -100,7 +129,7 @@ Para crear una partida de longitud y bombas por defecto.
 
 ### GET /jugar/longitud/minas
 
-Para crear una partida de longitud y bombas determinadas.
+- Para crear una partida de longitud y bombas determinadas.
 
 ```json
 {
