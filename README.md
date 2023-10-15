@@ -9,7 +9,7 @@ Desafio 1 de la asignatura Desarrollo Web en Servidores.
 -   [x] Crear las clases Usuario, Partida (sin funciones) y Factoria.
 -   [x] Definir la estructura del servicio.
 -   [x] Crear un login funcional (incluido hash). Diferenciar Admin.
--   [ ] CRUD de Usuarios en el panel de Administración.
+-   [x] CRUD de Usuarios en el panel de Administración.
 -   [ ] Crear un tablero, guardarlo en la BBDD y retornarlo.
 -   [ ] Comprobar partidas abiertas antes de crear un tablero nuevo.
 -   [ ] Abrir casillas, actualizarlas en la BBDD y mostrarlas al usuario.
@@ -27,9 +27,9 @@ La Base de Datos sigue la siguiente estructura:
 
 ### Jugador
 
-| ID     | Nombre       | email        | pass         | partidasJugadas | partidasGanadas |
-| ------ | ------------ | ------------ | ------------ | --------------- | --------------- |
-| int(3) | varchar(100) | varchar(100) | varchar(100) | int(3)          | int(3)          |
+| ID     | Nombre       | email        | pass         | partidasJugadas | partidasGanadas | es_admin |
+| ------ | ------------ | ------------ | ------------ | --------------- | --------------- | -------- |
+| int(3) | varchar(100) | varchar(100) | varchar(100) | int(3)          | int(3)          | boolean  |
 
 ### Partida
 
