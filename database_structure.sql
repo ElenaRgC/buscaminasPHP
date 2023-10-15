@@ -3,13 +3,13 @@ CREATE DATABASE buscaminas;
 USE buscaminas;
 
 CREATE TABLE jugador (
-    id INT(3) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     email VARCHAR(100),
     pass VARCHAR(100),
-    partidasJugadas INT(3),
-    partidasGanadas INT(3),
-    es_admin BOOLEAN
+    partidasJugadas INT(3) DEFAULT 0,
+    partidasGanadas INT(3) DEFAULT 0,
+    es_admin BOOLEAN DEFAULT 0
 );
 
 CREATE TABLE partida (

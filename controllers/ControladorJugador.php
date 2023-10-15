@@ -51,6 +51,28 @@ class ControladorJugador
         }
     }
 
+    public static function insertJugador($datosRecibidos)
+    {
+        $jugador = Factoria::crearJugador(0,
+            $datosRecibidos['nombre'],
+            $datosRecibidos['user-email'],
+            md5($datosRecibidos['user-pass']),
+            0, 0, 0
+        );
+
+        if (Conexion::insertJugador($jugador)) {
+            $cod = 201;
+            $mes = 'Jugador insertado';
+        } else {
+            $cod = 500;
+            $mes = 'Error en la base de datos.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
     public static function updateJugador($datosRecibidos)
     {
         $jugador = Factoria::crearJugador($datosRecibidos['id'], $datosRecibidos['nombre'], $datosRecibidos['user-email'], 0, 0, 0, 0);
@@ -86,6 +108,25 @@ class ControladorJugador
         } else {
             $cod = 500;
             $mes = 'Error';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
+    public static function deleteJugador($id)
+    {
+        if (Conexion::deleteJugador($id)) {
+            $cod = 200;
+            $mes = 'Usuario eliminado.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        } else {
+            $cod = 500;
+            $mes = 'Error en la base de datos.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 

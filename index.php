@@ -24,7 +24,7 @@ if ($usuario instanceof Jugador) {
                         echo ControladorJugador::getJugadores();
                         break;
                     case 'POST':
-                        // Añadir nuevo jugador
+                        echo ControladorJugador::insertJugador($data);
                         break;
                     case 'PUT':
                         if (isset($data['user-pass'])) {
@@ -34,7 +34,7 @@ if ($usuario instanceof Jugador) {
                         }
                         break;
                     case 'DELETE':
-                        // Eliminar jugador
+                        echo ControladorJugador::deleteJugador($data['id']);
                         break;
                     default:
                         $cod = 405;
