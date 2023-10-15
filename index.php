@@ -1,7 +1,7 @@
 <?php
 
 include_once 'auxiliar/Conexion.php';
-include_once 'controllers/Controlador.php';
+include_once 'controllers/ControladorJugador.php';
 
 header('Content-Type:application/json');
 
@@ -21,13 +21,17 @@ if ($usuario instanceof Jugador) {
             if ($usuario->getEsAdmin()) {
                 switch ($requestMethod) {
                     case 'GET':
-                        echo ControladorJugador::getJugadores($data);
+                        echo ControladorJugador::getJugadores();
                         break;
                     case 'POST':
                         // Añadir nuevo jugador
                         break;
                     case 'PUT':
-                        // Modificar datos jugador
+                        if (isset($data['user-pass'])) {
+                            echo ControladorJugador::updatePassword($data);
+                        } else {
+                            echo ControladorJugador::updateJugador($data);
+                        }
                         break;
                     case 'DELETE':
                         // Eliminar jugador

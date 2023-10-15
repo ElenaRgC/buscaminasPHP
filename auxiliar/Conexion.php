@@ -84,4 +84,51 @@ class Conexion
             self::desconectar();
         }
     }
+
+    public static function updateJugador($jugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'UPDATE jugador SET nombre = ?, email = ? WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        $nombre = $jugador->getNombre();
+        $email = $jugador->getEmail();
+        $id = $jugador->getId();
+
+        try {
+            $stmt->bind_param('ssi', $nombre, $email, $id);
+            $stmt->execute();
+
+            return 1;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function updatePassword($jugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'UPDATE jugador SET pass = ? WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        $pass = $jugador->getPass();
+        $id = $jugador->getId();
+
+        try {
+            $stmt->bind_param('si', $pass, $id);
+            $stmt->execute();
+
+            return 1;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
 }
