@@ -95,4 +95,11 @@ class Controlador
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
+
+    public static function getIdJugadorLogeado($datosRecibidos)
+    {
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);
+
+        return $jugador->getId();
+    }
 }
