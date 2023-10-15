@@ -57,4 +57,33 @@ class ControladorPartida
             return 0;
         }
     }
+
+    public static function getPartida($idJugador, $longitud, $bombas)
+    {
+        $partidasAbiertas = ControladorPartida::getPartidasAbiertas($idJugador);
+
+        if ($partidasAbiertas != 0) {
+            $partidas = $partidasAbiertas[0];
+            $rutas = $partidasAbiertas[1];
+
+            for ($i = 0; $i < count($rutas); ++$i) {
+                $ruta = $rutas[$i];
+                if ($ruta['Longitud'] == $longitud && $ruta['Bombas'] == $bombas) {
+                    $cod = 200;
+                    $mes = 'OK';
+
+                    header('HTTP/1.1 '.$cod.' '.$mes);
+
+                    return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partida' => $partidas[$i]]);
+                }
+            }
+        } else {
+            $cod = 404;
+            $mes = 'Partida no encontrada';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
 }
