@@ -1,7 +1,7 @@
 <?php
 
 include_once 'auxiliar/Conexion.php';
-include_once 'controllers/Controlador.php';
+include_once 'controllers/ControladorJugador.php';
 include_once 'controllers/ControladorPartida.php';
 
 header('Content-Type:application/json');
@@ -14,7 +14,7 @@ $data = json_decode($datosRecibidos, true);
 $args = explode('/', $paths);
 unset($args[0]);
 
-$usuario = Controlador::login($data);
+$usuario = ControladorJugador::login($data);
 
 if ($usuario instanceof Jugador) {
     switch ($args[1]) {
@@ -22,16 +22,20 @@ if ($usuario instanceof Jugador) {
             if ($usuario->getEsAdmin()) {
                 switch ($requestMethod) {
                     case 'GET':
-                        echo Controlador::getJugadores();
+                        echo ControladorJugador::getJugadores();
                         break;
                     case 'POST':
-                        echo Controlador::insertJugador($data);
+                        echo ControladorJugador::insertJugador($data);
                         break;
                     case 'PUT':
-                        // Modificar datos jugador
+                        if (isset($data(['user-pass']))) {
+                            echo ControladorJugador::updatePassword($data);
+                        } else {
+                            echo ControladorJugador::updateJugador($data);
+                        }
                         break;
                     case 'DELETE':
-                        echo Controlador::deleteJugador($data['id']);
+                        echo ControladorJugador::deleteJugador($data['id']);
                         break;
                     default:
                         $cod = 405;
@@ -49,7 +53,7 @@ if ($usuario instanceof Jugador) {
 
         case 'jugar':
             unset($args[1]);
-            $idJugador = Controlador::getIdJugadorLogeado($data);
+            $idJugador = ControladorJugador::getIdJugadorLogeado($data);
             switch ($requestMethod) {
                 case 'GET':
                     switch (count($args)) {
