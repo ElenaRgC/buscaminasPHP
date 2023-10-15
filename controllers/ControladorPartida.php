@@ -7,7 +7,7 @@ class ControladorPartida
 {
     public static function insertPartida($idJugador, $longitud = 10, $bombas = 2)
     {
-        $partidasAbiertas = ControladorPartida::getPartidasAbiertas();
+        $partidasAbiertas = ControladorPartida::getPartidasAbiertas($idJugador);
 
         if ($partidasAbiertas == 0) {
             $partida = Factoria::crearPartidaNueva($idJugador, $longitud, $bombas);
@@ -36,9 +36,9 @@ class ControladorPartida
         }
     }
 
-    public static function getPartidasAbiertas()
+    public static function getPartidasAbiertas($idJugador)
     {
-        $partidas = Conexion::getPartidasAbiertas();
+        $partidas = Conexion::getPartidasAbiertas($idJugador);
 
         if ($partidas[0] instanceof Partida) {
             $rutas = [];

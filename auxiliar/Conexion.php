@@ -199,15 +199,16 @@ class Conexion
         }
     }
 
-    public static function getPartidasAbiertas()
+    public static function getPartidasAbiertas($idJugador)
     {
         self::$conexion = self::conectar();
 
-        $query = 'SELECT * FROM partida WHERE fin = 0';
+        $query = 'SELECT * FROM partida WHERE fin = 0 AND idJugador = ?';
 
         $stmt = self::$conexion->prepare($query);
 
         try {
+            $stmt->bind_param('i', $idJugador);
             $stmt->execute();
             $result = $stmt->get_result();
 
