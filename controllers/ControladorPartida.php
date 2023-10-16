@@ -23,16 +23,18 @@ class ControladorPartida
                 $cod = 500;
                 $mes = 'Error en la base de datos.';
 
-                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
                 header('HTTP/1.1 '.$cod.' '.$mes);
+
+                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
         } else {
             $cod = 204;
             $mes = 'Ya hay partidas abiertas.';
 
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
             'Partidas Abiertas' => $partidasAbiertas[0], 'Rutas' => $partidasAbiertas[1]]);
-            header('HTTP/1.1 '.$cod.' '.$mes);
         }
     }
 
@@ -47,7 +49,7 @@ class ControladorPartida
         }
     }
 
-    public static function getPartidabyId($id)
+    public static function getPartidabyId($id, $idJugador)
     {
         $partida = Conexion::getPartidabyId($id);
 
@@ -59,12 +61,14 @@ class ControladorPartida
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partida' => $partida]);
         } else {
-            $cod = 404;
+            $partidasAbiertas = ControladorPartida::getPartidasAbiertas($idJugador);
+
+            $cod = 201;
             $mes = 'Partida no encontrada';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
-            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partidas abiertas' => $partidasAbiertas]);
         }
     }
 
@@ -82,7 +86,7 @@ class ControladorPartida
 
             return $ultimaPartida;
         } else {
-            $cod = 404;
+            $cod = 201;
             $mes = 'Partida no encontrada';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
