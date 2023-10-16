@@ -1,8 +1,25 @@
 # Buscaminas
 
-Desafio 1 de la asignatura Desarrollo Web en Servidores.
+**Desafio 1 de la asignatura Desarrollo Web en Servidores.**
 
-## Objetivos ![](https://geps.dev/progress/77)
+Este desafío consiste en la creación de un servicio web para gestionar partidas de buscaminas en una dimensión con PHP y mySQL.
+Habrá dos tipos de usuarios: jugadores y administradores, donde los segundos podrán realizar todas las acciones que haga el primero, pero no en caso contrario.
+
+- Los jugadores podrán crear partidas, abrir casillas, rendirse, solicitar un cambio de contraseña y ver el ranking de jugadores.
+- Los administradores podrán crear, buscar, modificar y eliminar usuarios, así como todas las funciones anteriores.
+
+Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a la vez. En esta solución se ha resuelto de forma que, por defecto, un jugador acceda a la última partida que ha creado o a una partida de la que conozca su ID. Si intenta abrir una casilla en una partida que no está abierta o no existe, se le mostrará un listado de las partidas abiertas bajo su ID
+
+## Contenido
+
+- [Objetivos](#objetivos)
+- [Estructura de la Base de Datos](#estructura-de-la-base-de-datos)
+- [Rutas admitidas y JSON esperados](#rutas-admitidas-y-json-esperados)
+  - [Administrador](#administrador)
+  - [Jugador](#jugador-1)
+
+## Objetivos
+![](https://geps.dev/progress/77)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
@@ -93,7 +110,7 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 
 No se modificarán ni su id o número de partidas jugadas y/o ganadas.
 
--   Para modificar el nombre y el email de un usuario.
+-   Para modificar la contraseña de un usuario.
 
 ```json
 {
