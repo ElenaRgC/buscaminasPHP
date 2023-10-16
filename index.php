@@ -28,7 +28,7 @@ if ($usuario instanceof Jugador) {
                         echo ControladorJugador::insertJugador($data);
                         break;
                     case 'PUT':
-                        if (isset($data(['user-pass']))) {
+                        if (isset($data['user-pass'])) {
                             echo ControladorJugador::updatePassword($data);
                         } else {
                             echo ControladorJugador::updateJugador($data);
@@ -41,12 +41,17 @@ if ($usuario instanceof Jugador) {
                         $cod = 405;
                         $mes = 'Verbo no soportado.';
 
+                        header('HTTP/1.1 '.$cod.' '.$mes);
+
                         echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
                 }
                 break;
             } else {
                 $cod = 401;
                 $mes = 'No autorizado.';
+
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
                 echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
             break;
@@ -67,16 +72,24 @@ if ($usuario instanceof Jugador) {
                             $cod = 400;
                             $mes = 'Argumentos inválidos.';
 
+                            header('HTTP/1.1 '.$cod.' '.$mes);
+
                             echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
                     }
                     break;
 
                 case 'POST':
-                    if (count($args) == 1) {
-                        // Revelar una casilla
+                    if (isset($data['casilla'])) {
+                        if (isset($data['id'])) {
+                            echo ControladorPartida::abrirCasilla($data['casilla'], $idJugador, $data['id']);
+                        } else {
+                            echo ControladorPartida::abrirCasilla($data['casilla'], $idJugador);
+                        }
                     } else {
                         $cod = 400;
                         $mes = 'Argumentos inválidos.';
+
+                        header('HTTP/1.1 '.$cod.' '.$mes);
 
                         echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
                     }
@@ -85,6 +98,8 @@ if ($usuario instanceof Jugador) {
                 default:
                     $cod = 405;
                     $mes = 'Verbo no soportado.';
+
+                    header('HTTP/1.1 '.$cod.' '.$mes);
 
                     echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
@@ -96,6 +111,8 @@ if ($usuario instanceof Jugador) {
             } else {
                 $cod = 405;
                 $mes = 'Verbo no soportado.';
+
+                header('HTTP/1.1 '.$cod.' '.$mes);
 
                 echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
@@ -110,6 +127,8 @@ if ($usuario instanceof Jugador) {
         default:
             $cod = 400;
             $mes = 'Argumentos inválidos.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
 
             echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
     }

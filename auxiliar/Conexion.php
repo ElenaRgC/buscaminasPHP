@@ -71,6 +71,8 @@ class Conexion
             $stmt->execute();
             $resultados = $stmt->get_result();
 
+            $j = 0;
+
             while ($fila = $resultados->fetch_array()) {
                 $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
             }
@@ -199,26 +201,122 @@ class Conexion
         }
     }
 
-    public static function getPartidasAbiertas()
+    public static function getPartidabyId($id)
     {
         self::$conexion = self::conectar();
 
-        $query = 'SELECT * FROM partida WHERE fin = 0';
+        $query = 'SELECT * FROM partida WHERE id = ?';
 
         $stmt = self::$conexion->prepare($query);
 
         try {
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $resultados = $stmt->get_result();
+
+            $p = 0;
+
+            while ($fila = $resultados->fetch_array()) {
+                $p = Factoria::crearPartida(
+                    $fila['id'],
+                    $fila['idJugador'],
+                    $fila['tableroSolucion'],
+                    $fila['tableroJugador'],
+                    $fila['fin']);
+            }
+
+            $resultados->free_result();
+
+            return $p;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function getPartidasAbiertas($idJugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM partida WHERE fin = 0 AND idJugador = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('i', $idJugador);
             $stmt->execute();
             $result = $stmt->get_result();
 
             $partidas = [];
 
             while ($fila = $result->fetch_assoc()) {
-                $p = Factoria::crearPartida($fila['id'], $fila['idJugador'], $fila['tableroSolucion'], $fila['tableroJugador'], $fila['fin']);
+                $p = Factoria::crearPartida(
+                    $fila['id'],
+                    $fila['idJugador'],
+                    $fila['tableroSolucion'],
+                    $fila['tableroJugador'],
+                    $fila['fin']);
+
                 $partidas[] = $p;
             }
 
             return $partidas;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function getPartidaReciente($idJugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM partida WHERE fin = 0 AND idJugador = ? ORDER BY id DESC LIMIT 1';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('i', $idJugador);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $p = 0;
+
+            while ($fila = $result->fetch_assoc()) {
+                $p = Factoria::crearPartida(
+                    $fila['id'],
+                    $fila['idJugador'],
+                    $fila['tableroSolucion'],
+                    $fila['tableroJugador'],
+                    $fila['fin']);
+            }
+
+            return $p;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function updateTableroJugador($partida)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'UPDATE partida SET tableroJugador = ? WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        $tableroJugador = $partida->getTableroJugador();
+        $id = $partida->getId();
+
+        try {
+            $stmt->bind_param('si', $tableroJugador, $id);
+            $stmt->execute();
+
+            return 1;
         } catch (Exception $e) {
             return 0;
         } finally {

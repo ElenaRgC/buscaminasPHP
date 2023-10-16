@@ -16,14 +16,14 @@ Desafio 1 de la asignatura Desarrollo Web en Servidores.
     -   [x] Eliminar
 -   [x] Crear un tablero, guardarlo en la BBDD y retornarlo.
 -   [x] Comprobar partidas abiertas antes de crear un tablero nuevo.
--   [ ] Abrir casillas, actualizarlas en la BBDD y mostrarlas al usuario.
+-   [x] Abrir casillas, actualizarlas en la BBDD y mostrarlas al usuario.
 -   [ ] Crear condición de victoria. Cerrar partidas.
 -   [ ] Rendirse (cerrar partidas voluntariamente).
 -   [ ] Solicitud de cambio de contraseña.
 
 ### Opcional
 
--   [ ] Tener varias partidas abiertas por usuario.
+-   [x] Tener varias partidas abiertas por usuario.
 
 ## Estructura de la Base de Datos
 
@@ -45,9 +45,11 @@ Puede crearse la base de datos con el fichero `database_structure.sql`.
 
 ## Rutas admitidas y JSON esperados
 
-### GET /admin
+### Administrador
 
-- Para leer la lista de jugadores en la BBDD.
+#### GET /admin
+
+-   Para leer la lista de jugadores en la BBDD.
 
 ```json
 {
@@ -58,9 +60,9 @@ Puede crearse la base de datos con el fichero `database_structure.sql`.
 
 Como en el resto de casos en la ruta /admin, sólo serán satisfactorias las llamadas a la API si estos datos son de un administrador.
 
-### POST /admin
+#### POST /admin
 
-- Para crear un nuevo usuario.
+-   Para crear un nuevo usuario.
 
 ```json
 {
@@ -75,9 +77,9 @@ Como en el resto de casos en la ruta /admin, sólo serán satisfactorias las lla
 El jugador creado no será administrador y comenzará con 0 partidas jugadas y ganadas.
 Su contraseña se almacenará en la BBDD con un hash MD5.
 
-### PUT /admin
+#### PUT /admin
 
-- Para modificar el nombre y el email de un usuario.
+-   Para modificar el nombre y el email de un usuario.
 
 ```json
 {
@@ -85,28 +87,28 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
     "pass": "tucontraseña",
     "id": "IDusuario",
     "nombre": "nombreUsuario",
-    "user-email": "email@usuario.com",
+    "user-email": "email@usuario.com"
 }
 ```
 
 No se modificarán ni su id o número de partidas jugadas y/o ganadas.
 
-- Para modificar el nombre y el email de un usuario.
+-   Para modificar el nombre y el email de un usuario.
 
 ```json
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
     "id": "IDusuario",
-    "user-pass": "nuevaConstraseña",
+    "user-pass": "nuevaConstraseña"
 }
 ```
 
 Su contraseña se almacenará en la BBDD con un hash MD5.
 
-### DELETE /admin
+#### DELETE /admin
 
-- Para eliminar un usuario dada su ID.
+-   Para eliminar un usuario dada su ID.
 
 ```json
 {
@@ -116,9 +118,22 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 }
 ```
 
-### GET /jugar
+### Jugador
 
-- Para crear una partida de longitud y bombas por defecto.
+#### GET /jugar
+
+-   Para crear una partida de longitud y bombas por defecto.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña"
+}
+```
+
+#### GET /jugar/longitud/minas
+
+-   Para crear una partida de longitud y bombas determinadas.
 
 ```json
 {
@@ -127,13 +142,27 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 }
 ```
 
-### GET /jugar/longitud/minas
+#### POST /jugar
 
-- Para crear una partida de longitud y bombas determinadas.
+-   Para jugar en la última partida creada que esté abierta.
 
 ```json
 {
     "email": "tucorreo@email.com",
-    "pass": "tucontraseña"
+    "pass": "tucontraseña",
+    "casilla": 1
 }
 ```
+
+-   Para jugar en una partida conocido su ID.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "id": "IDpartida",
+    "casilla": 1
+}
+```
+
+Si el ID no se corresponde a una partida abierta, se devolverá una lista con las partidas abiertas de ese jugador.

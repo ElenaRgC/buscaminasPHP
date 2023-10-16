@@ -12,7 +12,7 @@ class ControladorJugador
         if ($jugador instanceof Jugador) {
             if ($jugador->getEmail() == $datosRecibidos['email'] && $jugador->getPass() == md5($datosRecibidos['pass'])) {
                 return $jugador;
-            } else {
+            } elseif ($jugador->getEmail() != $datosRecibidos['email'] || $jugador->getPass() != md5($datosRecibidos['pass'])) {
                 $cod = 401;
                 $mes = 'Usuario o contraseña incorrectos.';
 
@@ -21,8 +21,8 @@ class ControladorJugador
                 return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
         } else {
-            $cod = 500;
-            $mes = 'Error en la base de datos.';
+            $cod = 401;
+            $mes = 'Usuario o contraseña incorrectos.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
