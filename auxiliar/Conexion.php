@@ -71,6 +71,8 @@ class Conexion
             $stmt->execute();
             $resultados = $stmt->get_result();
 
+            $j = 0;
+
             while ($fila = $resultados->fetch_array()) {
                 $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
             }

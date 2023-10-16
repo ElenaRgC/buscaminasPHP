@@ -43,7 +43,7 @@ class ControladorPartida
     {
         $partidas = Conexion::getPartidasAbiertas($idJugador);
 
-        if ($partidas[0] instanceof Partida) {
+        if (isset($partidas[0])) {
             return $partidas;
         } else {
             return 0;
@@ -103,7 +103,7 @@ class ControladorPartida
             }
         } else {
             $cod = 201;
-            $mes = 'No hay partidas abiertas.';
+            $mes = 'Id no encontrada.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
