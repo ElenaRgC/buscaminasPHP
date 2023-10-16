@@ -79,11 +79,11 @@ if ($usuario instanceof Jugador) {
                     break;
 
                 case 'POST':
-                    if (count($args) == 0) {
+                    if (isset($data['casilla'])) {
                         if (isset($data['id'])) {
-                            echo ControladorPartida::getPartidabyId($data['id'], $idJugador);
+                            echo ControladorPartida::abrirCasilla($data['casilla'], $idJugador, $data['id']);
                         } else {
-                            echo ControladorPartida::getPartidaReciente($idJugador);
+                            echo ControladorPartida::abrirCasilla($data['casilla'], $idJugador);
                         }
                     } else {
                         $cod = 400;

@@ -280,6 +280,8 @@ class Conexion
             $stmt->execute();
             $result = $stmt->get_result();
 
+            $p = 0;
+
             while ($fila = $result->fetch_assoc()) {
                 $p = Factoria::crearPartida(
                     $fila['id'],
@@ -290,6 +292,29 @@ class Conexion
             }
 
             return $p;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function updateTableroJugador($partida)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'UPDATE partida SET tableroJugador = ? WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        $tableroJugador = $partida->getTableroJugador();
+        $id = $partida->getId();
+
+        try {
+            $stmt->bind_param('si', $tableroJugador, $id);
+            $stmt->execute();
+
+            return 1;
         } catch (Exception $e) {
             return 0;
         } finally {
