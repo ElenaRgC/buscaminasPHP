@@ -199,6 +199,40 @@ class Conexion
         }
     }
 
+    public static function getPartidabyId($id)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM partida WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $resultados = $stmt->get_result();
+
+            $p = 0;
+
+            while ($fila = $resultados->fetch_array()) {
+                $p = Factoria::crearPartida(
+                    $fila['id'],
+                    $fila['idJugador'],
+                    $fila['tableroSolucion'],
+                    $fila['tableroJugador'],
+                    $fila['fin']);
+            }
+
+            $resultados->free_result();
+
+            return $p;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
     public static function getPartidasAbiertas($idJugador)
     {
         self::$conexion = self::conectar();
@@ -215,11 +249,47 @@ class Conexion
             $partidas = [];
 
             while ($fila = $result->fetch_assoc()) {
-                $p = Factoria::crearPartida($fila['id'], $fila['idJugador'], $fila['tableroSolucion'], $fila['tableroJugador'], $fila['fin']);
+                $p = Factoria::crearPartida(
+                    $fila['id'],
+                    $fila['idJugador'],
+                    $fila['tableroSolucion'],
+                    $fila['tableroJugador'],
+                    $fila['fin']);
+
                 $partidas[] = $p;
             }
 
             return $partidas;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function getPartidaReciente($idJugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM partida WHERE fin = 0 AND idJugador = ? ORDER BY id DESC LIMIT 1';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('i', $idJugador);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while ($fila = $result->fetch_assoc()) {
+                $p = Factoria::crearPartida(
+                    $fila['id'],
+                    $fila['idJugador'],
+                    $fila['tableroSolucion'],
+                    $fila['tableroJugador'],
+                    $fila['fin']);
+            }
+
+            return $p;
         } catch (Exception $e) {
             return 0;
         } finally {

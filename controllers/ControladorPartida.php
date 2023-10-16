@@ -41,42 +41,46 @@ class ControladorPartida
         $partidas = Conexion::getPartidasAbiertas($idJugador);
 
         if ($partidas[0] instanceof Partida) {
-            $rutas = [];
-
-            foreach ($partidas as $tablero) {
-                $tablero = $tablero->getTableroSolucion();
-
-                $rutas[] = [
-                    'Longitud' => strlen($tablero),
-                    'Bombas' => substr_count($tablero, '*'),
-                ];
-            }
-
-            return [$partidas, $rutas];
+            return $partidas;
         } else {
             return 0;
         }
     }
 
-    public static function getPartida($idJugador, $longitud, $bombas)
+    public static function getPartidabyId($id)
     {
-        $partidasAbiertas = ControladorPartida::getPartidasAbiertas($idJugador);
+        $partida = Conexion::getPartidabyId($id);
 
-        if ($partidasAbiertas != 0) {
-            $partidas = $partidasAbiertas[0];
-            $rutas = $partidasAbiertas[1];
+        if ($partida instanceof Partida) {
+            $cod = 200;
+            $mes = 'OK';
 
-            for ($i = 0; $i < count($rutas); ++$i) {
-                $ruta = $rutas[$i];
-                if ($ruta['Longitud'] == $longitud && $ruta['Bombas'] == $bombas) {
-                    $cod = 200;
-                    $mes = 'OK';
+            header('HTTP/1.1 '.$cod.' '.$mes);
 
-                    header('HTTP/1.1 '.$cod.' '.$mes);
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partida' => $partida]);
+        } else {
+            $cod = 404;
+            $mes = 'Partida no encontrada';
 
-                    return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partida' => $partidas[$i]]);
-                }
-            }
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
+    public static function getPartidaReciente($idJugador)
+    {
+        $ultimaPartida = Conexion::getPartidaReciente($idJugador);
+
+        if ($ultimaPartida) {
+            $cod = 200;
+            $mes = 'OK';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partida' => $ultimaPartida]);
+
+            return $ultimaPartida;
         } else {
             $cod = 404;
             $mes = 'Partida no encontrada';

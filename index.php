@@ -28,11 +28,11 @@ if ($usuario instanceof Jugador) {
                         echo ControladorJugador::insertJugador($data);
                         break;
                     case 'PUT':
-                        /* if (isset($data(['user-pass']))) {
+                        if (isset($data['user-pass'])) {
                             echo ControladorJugador::updatePassword($data);
                         } else {
                             echo ControladorJugador::updateJugador($data);
-                        } */
+                        }
                         break;
                     case 'DELETE':
                         echo ControladorJugador::deleteJugador($data['id']);
@@ -72,8 +72,12 @@ if ($usuario instanceof Jugador) {
                     break;
 
                 case 'POST':
-                    if (count($args) == 2) {
-                        echo ControladorPartida::getPartida($idJugador, $args[2], $args[3]);
+                    if (count($args) == 0) {
+                        if (isset($data['id'])) {
+                            echo ControladorPartida::getPartidabyId($data['id']);
+                        } else {
+                            echo ControladorPartida::getPartidaReciente($idJugador);
+                        }
                     } else {
                         $cod = 400;
                         $mes = 'Argumentos inválidos.';
