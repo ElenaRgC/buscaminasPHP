@@ -2,7 +2,7 @@
 
 Desafio 1 de la asignatura Desarrollo Web en Servidores.
 
-## Objetivos ![](https://geps.dev/progress/67)
+## Objetivos ![](https://geps.dev/progress/77)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
