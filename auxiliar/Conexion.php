@@ -176,6 +176,26 @@ class Conexion
         }
     }
 
+    public static function updateStatsJugador($id, $resultado)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'UPDATE jugador SET partidasJugadas = partidasJugadas + 1, partidasGanadas = partidasGanadas + ? WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('ii', $resultado, $id);
+            $stmt->execute();
+
+            return 1;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
     // PARTIDA -------------------------------------
 
     public static function insertPartida($partida)
@@ -314,6 +334,26 @@ class Conexion
 
         try {
             $stmt->bind_param('si', $tableroJugador, $id);
+            $stmt->execute();
+
+            return 1;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
+    public static function closePartida($idPartida, $resultado)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'UPDATE partida SET fin = ? WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('si', $resultado, $idPartida);
             $stmt->execute();
 
             return 1;
