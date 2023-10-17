@@ -72,6 +72,27 @@ class ControladorJugador
         }
     }
 
+    public static function getRankingJugadores()
+    {
+        $jugadores = Conexion::getRankingJugadores();
+
+        if ($jugadores[0] instanceof Jugador) {
+            $cod = 200;
+            $mes = 'OK';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Jugadores' => $jugadores]);
+        } else {
+            $cod = 500;
+            $mes = 'Error';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
     public static function getIdJugadorLogeado($datosRecibidos)
     {
         $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);

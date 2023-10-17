@@ -141,7 +141,14 @@ if ($usuario instanceof Jugador) {
 
         case 'ranking':
             if ($requestMethod == 'GET') {
-                // Mostar nombres de usuario ordenados por número de victorias
+                echo ControladorJugador::getRankingJugadores();
+            } else {
+                $cod = 405;
+                $mes = 'Verbo no soportado.';
+
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
+                echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
             }
             break;
 

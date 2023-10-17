@@ -225,6 +225,41 @@ class Conexion
         }
     }
 
+    public static function getRankingJugadores()
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM jugador ORDER BY partidasGanadas DESC';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $jugadores = [];
+
+            while ($fila = $result->fetch_assoc()) {
+                $j = Factoria::crearJugador(
+                    $fila['id'],
+                    $fila['nombre'],
+                    $fila['email'],
+                    $fila['pass'],
+                    $fila['partidasJugadas'],
+                    $fila['partidasGanadas'],
+                    $fila['es_admin']);
+
+                $jugadores[] = $j;
+            }
+
+            return $jugadores;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
     // PARTIDA -------------------------------------
 
     public static function insertPartida($partida)
