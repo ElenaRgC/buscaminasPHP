@@ -6,6 +6,13 @@ require_once __DIR__.'\..\auxiliar\Constantes.php';
 
 class ControladorAdministrador
 {
+    /**
+     * Devuelve un jugador a partir del id.
+     *
+     * @param int $idJugador El id del jugador a devolver
+     *
+     * @return array|null
+     */
     public static function getJugadorFromId($idJugador)
     {
         $jugador = Conexion::getJugadorFromId($idJugador);
@@ -27,6 +34,11 @@ class ControladorAdministrador
         }
     }
 
+    /**
+     * Devuelve todos los jugadores.
+     *
+     * @return array|null
+     */
     public static function getJugadores()
     {
         $jugadores = Conexion::getJugadores();
@@ -48,6 +60,13 @@ class ControladorAdministrador
         }
     }
 
+    /**
+     * Inserta un jugador en la base de datos.
+     *
+     * @param array $datosRecibidos Datos del jugador a insertar
+     *
+     * @return array|null
+     */
     public static function insertJugador($datosRecibidos)
     {
         $jugador = Factoria::crearJugador(0,
@@ -72,6 +91,13 @@ class ControladorAdministrador
         }
     }
 
+    /**
+     * Actualiza un jugador en la base de datos.
+     *
+     * @param array $datosRecibidos Datos del jugador a actualizar
+     *
+     * @return array|null
+     */
     public static function updateJugador($datosRecibidos)
     {
         $jugador = Factoria::crearJugador($datosRecibidos['user-id'], $datosRecibidos['user-nombre'], $datosRecibidos['user-email'], 0, 0, 0, 0);
@@ -93,6 +119,14 @@ class ControladorAdministrador
         }
     }
 
+    /**
+     * Actualiza la contraseña de un jugador en la base de datos y le aplica un hash md5.
+     *
+     * @param int    $idJugador El id del jugador
+     * @param string $pass      La nueva contraseña del jugador
+     *
+     * @return array|null
+     */
     public static function updatePassword($idJugador, $pass)
     {
         $jugador = Factoria::crearJugador($idJugador, 0, 0, md5($pass), 0, 0, 0);
@@ -114,6 +148,13 @@ class ControladorAdministrador
         }
     }
 
+    /**
+     * Elimina un jugador de la base de datos.
+     *
+     * @param int $id El id del jugador a eliminar
+     *
+     * @return array|null
+     */
     public static function deleteJugador($id)
     {
         if (Conexion::deleteJugador($id)) {
