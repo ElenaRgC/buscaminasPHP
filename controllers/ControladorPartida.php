@@ -114,7 +114,7 @@ class ControladorPartida
             }
         } else {
             $cod = 201;
-            $mes = 'Id no encontrada.';
+            $mes = 'Partida no encontrada.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
@@ -131,5 +131,15 @@ class ControladorPartida
             $resultado = 0;
         }
         Conexion::updateStatsJugador($idJugador, $resultado);
+    }
+
+    public static function rendirse($idJugador, $idPartida = null)
+    {
+        if ($idPartida == null) {
+            $partida = ControladorPartida::getPartidaReciente($idJugador);
+            $idPartida = $partida->getId();
+        }
+
+        ControladorPartida::finPartida($idJugador, $idPartida, -1);
     }
 }
