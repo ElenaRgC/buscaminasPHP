@@ -3,11 +3,43 @@
 require_once __DIR__.'\..\auxiliar\Conexion.php';
 require_once __DIR__.'\..\auxiliar\Factoria.php';
 
-class ControladorPartida
+class ControladorJuego
 {
+    public static function login($datosRecibidos)
+    {
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['user-email']);
+
+        if ($jugador instanceof Jugador) {
+            if ($jugador->getEmail() == $datosRecibidos['user-email'] && $jugador->getPass() == md5($datosRecibidos['user-pass'])) {
+                return $jugador;
+            } elseif ($jugador->getEmail() != $datosRecibidos['user-email'] || $jugador->getPass() != md5($datosRecibidos['user-pass'])) {
+                $cod = 401;
+                $mes = 'Usuario o contraseña incorrectos.';
+
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
+                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+            }
+        } else {
+            $cod = 401;
+            $mes = 'Usuario o contraseña incorrectos.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
+    public static function getIdJugadorLogeado($datosRecibidos)
+    {
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['user-email']);
+
+        return $jugador->getId();
+    }
+
     public static function insertPartida($idJugador, $longitud = 10, $bombas = 2)
     {
-        $partidasAbiertas = ControladorPartida::getPartidasAbiertas($idJugador);
+        $partidasAbiertas = ControladorJuego::getPartidasAbiertas($idJugador);
 
         if ($partidasAbiertas == 0) {
             $partida = Factoria::crearPartidaNueva($idJugador, $longitud, $bombas);
@@ -19,7 +51,7 @@ class ControladorPartida
                 header('HTTP/1.1 '.$cod.' '.$mes);
 
                 return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
-                'Partida' => ControladorPartida::getPartidaReciente($idJugador)]);
+                'Partida' => ControladorJuego::getPartidaReciente($idJugador)]);
             } else {
                 $cod = 500;
                 $mes = 'Error en la base de datos.';
@@ -75,9 +107,9 @@ class ControladorPartida
     public static function abrirCasilla($casilla, $idJugador, $idPartida = 0)
     {
         if ($idPartida != 0) {
-            $partida = ControladorPartida::getPartidabyId($idPartida, $idJugador);
+            $partida = ControladorJuego::getPartidabyId($idPartida, $idJugador);
         } else {
-            $partida = ControladorPartida::getPartidaReciente($idJugador);
+            $partida = ControladorJuego::getPartidaReciente($idJugador);
         }
 
         if ($partida instanceof Partida) {
@@ -89,12 +121,12 @@ class ControladorPartida
 
             if ($tableroNuevo[$casilla - 1] == '*') {
                 $partida->setFin(-1);
-                ControladorPartida::finPartida($idJugador, $partida->getId(), -1);
+                ControladorJuego::finPartida($idJugador, $partida->getId(), -1);
             }
 
             if (substr_count($tableroNuevo, '-') == substr_count($tablero, '*')) {
                 $partida->setFin(1);
-                ControladorPartida::finPartida($idJugador, $partida->getId(), 1);
+                ControladorJuego::finPartida($idJugador, $partida->getId(), 1);
             }
 
             if (Conexion::updateTableroJugador($partida)) {
@@ -119,7 +151,7 @@ class ControladorPartida
             header('HTTP/1.1 '.$cod.' '.$mes);
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
-            'Partidas abiertas' => ControladorPartida::getPartidasAbiertas($idJugador)]);
+            'Partidas abiertas' => ControladorJuego::getPartidasAbiertas($idJugador)]);
         }
     }
 
@@ -136,10 +168,10 @@ class ControladorPartida
     public static function rendirse($idJugador, $idPartida = null)
     {
         if ($idPartida == null) {
-            $partida = ControladorPartida::getPartidaReciente($idJugador);
+            $partida = ControladorJuego::getPartidaReciente($idJugador);
             $idPartida = $partida->getId();
         }
 
-        ControladorPartida::finPartida($idJugador, $idPartida, -1);
+        ControladorJuego::finPartida($idJugador, $idPartida, -1);
     }
 }
