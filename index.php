@@ -33,7 +33,7 @@ if ($usuario instanceof Jugador) {
                         break;
                     case 'PUT':
                         if (isset($data['user-pass'])) {
-                            echo ControladorJugador::updatePassword($data);
+                            echo ControladorJugador::updatePassword($data['id'], $data['pass']);
                         } else {
                             echo ControladorJugador::updateJugador($data);
                         }
@@ -127,8 +127,8 @@ if ($usuario instanceof Jugador) {
             break;
 
         case 'pass':
-            if ($requestMethod == 'PUT') {
-                // Solicitar contraseña nueva
+            if ($requestMethod == 'GET') {
+                echo ControladorJugador::solicitarPassword($data);
             } else {
                 $cod = 405;
                 $mes = 'Verbo no soportado.';
