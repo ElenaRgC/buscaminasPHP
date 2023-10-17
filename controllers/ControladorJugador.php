@@ -1,7 +1,13 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+
+require_once __DIR__.'\..\phpmailer\src\Exception.php';
+require_once __DIR__.'\..\phpmailer\src\PHPMailer.php';
+require_once __DIR__.'\..\phpmailer\src\SMTP.php';
 require_once __DIR__.'\..\auxiliar\Conexion.php';
 require_once __DIR__.'\..\auxiliar\Factoria.php';
+require_once __DIR__.'\..\auxiliar\Constantes.php';
 
 class ControladorJugador
 {
@@ -143,9 +149,9 @@ class ControladorJugador
         }
     }
 
-    public static function updatePassword($datosRecibidos)
+    public static function updatePassword($idJugador, $pass)
     {
-        $jugador = Factoria::crearJugador($datosRecibidos['id'], 0, 0, md5($datosRecibidos['user-pass']), 0, 0, 0);
+        $jugador = Factoria::crearJugador($idJugador, 0, 0, md5($pass), 0, 0, 0);
 
         if (Conexion::updatePassword($jugador)) {
             $cod = 200;
@@ -176,6 +182,58 @@ class ControladorJugador
         } else {
             $cod = 500;
             $mes = 'Error en la base de datos.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
+    public static function solicitarPassword($datosRecibidos)
+    {
+        $id = ControladorJugador::getIdJugadorLogeado($datosRecibidos);
+        $jugador = ControladorJugador::getJugadorFromId($id);
+
+        $newPassword = rand(1000, 9999);
+
+        try {
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = Constantes::$USERNAME;
+            $mail->Password = Constantes::$PASS;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port = 465;
+
+            // Emisor
+            $mail->setFrom(Constantes::$USERNAME, 'Buscaminas');
+
+            // Destinatarios
+            if ($jugador instanceof Jugador) {
+                $mail->addAddress($jugador->getEmail(), $jugador->getNombre());
+            } else {
+                $mail->addAddress($datosRecibidos['email'], 'Estimado jugador');
+            }
+
+            $mail->isHTML(true);
+            $mail->Subject = 'Solicitud de cambio de contraseña.';
+            $mail->Body = 'Su nueva contraseña es: <b>'.$newPassword.'</b>.';
+            $mail->AltBody = 'Su nueva contraseña es: '.$newPassword.'.';
+
+            ControladorJugador::updatePassword($id, $newPassword);
+
+            $mail->send();
+
+            $cod = 200;
+            $mes = 'Mensaje enviado.';
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+            echo 'El mensaje ha sido enviado';
+        } catch (Exception $e) {
+            $cod = 500;
+            $mes = 'Error';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
