@@ -166,3 +166,30 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 ```
 
 Si el ID no se corresponde a una partida abierta, se devolverá una lista con las partidas abiertas de ese jugador.
+
+#### PUT /jugar
+
+-   Para rendirse en la última partida creada que esté abierta.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "fin": true
+}
+```
+
+Aceptará cualquier valor distinto de 0 o `false`.
+
+-   Para rendirse en una partida conocida su ID.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "id": "IDpartida",
+    "fin": 1
+}
+```
+
+Aceptará cualquier valor distinto de 0 o `false`.
