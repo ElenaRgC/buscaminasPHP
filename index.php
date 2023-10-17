@@ -1,8 +1,8 @@
 <?php
 
 include_once 'auxiliar/Conexion.php';
-include_once 'controllers/ControladorJugador.php';
-include_once 'controllers/ControladorPartida.php';
+include_once 'controllers/ControladorAdministrador.php';
+include_once 'controllers/ControladorJuego.php';
 
 header('Content-Type:application/json');
 
@@ -14,7 +14,7 @@ $data = json_decode($datosRecibidos, true);
 $args = explode('/', $paths);
 unset($args[0]);
 
-$usuario = ControladorJugador::login($data);
+$usuario = ControladorJuego::login($data);
 
 if ($usuario instanceof Jugador) {
     switch ($args[1]) {
@@ -23,23 +23,23 @@ if ($usuario instanceof Jugador) {
                 switch ($requestMethod) {
                     case 'GET':
                         if (isset($data['user-id'])) {
-                            echo ControladorJugador::getJugadorFromId($data['user-id']);
+                            echo ControladorAdministrador::getJugadorFromId($data['user-id']);
                         } else {
-                            echo ControladorJugador::getJugadores();
+                            echo ControladorAdministrador::getJugadores();
                         }
                         break;
                     case 'POST':
-                        echo ControladorJugador::insertJugador($data);
+                        echo ControladorAdministrador::insertJugador($data);
                         break;
                     case 'PUT':
                         if (isset($data['user-pass'])) {
-                            echo ControladorJugador::updatePassword($data['id'], $data['pass']);
+                            echo ControladorAdministrador::updatePassword($data['id'], $data['pass']);
                         } else {
-                            echo ControladorJugador::updateJugador($data);
+                            echo ControladorAdministrador::updateJugador($data);
                         }
                         break;
                     case 'DELETE':
-                        echo ControladorJugador::deleteJugador($data['id']);
+                        echo ControladorAdministrador::deleteJugador($data['id']);
                         break;
                     default:
                         $cod = 405;
@@ -62,15 +62,15 @@ if ($usuario instanceof Jugador) {
 
         case 'jugar':
             unset($args[1]);
-            $idJugador = ControladorJugador::getIdJugadorLogeado($data);
+            $idJugador = ControladorJuego::getIdJugadorLogeado($data);
             switch ($requestMethod) {
                 case 'GET':
                     switch (count($args)) {
                         case 0:
-                            echo ControladorPartida::insertPartida($idJugador);
+                            echo ControladorJuego::insertPartida($idJugador);
                             break;
                         case 2:
-                            echo ControladorPartida::insertPartida($idJugador, $args[2], $args[3]);
+                            echo ControladorJuego::insertPartida($idJugador, $args[2], $args[3]);
                             break;
                         default:
                             $cod = 400;
@@ -85,9 +85,9 @@ if ($usuario instanceof Jugador) {
                 case 'POST':
                     if (isset($data['casilla'])) {
                         if (isset($data['id'])) {
-                            echo ControladorPartida::abrirCasilla($data['casilla'], $idJugador, $data['id']);
+                            echo ControladorJuego::abrirCasilla($data['casilla'], $idJugador, $data['id']);
                         } else {
-                            echo ControladorPartida::abrirCasilla($data['casilla'], $idJugador);
+                            echo ControladorJuego::abrirCasilla($data['casilla'], $idJugador);
                         }
                     } else {
                         $cod = 400;
@@ -102,9 +102,9 @@ if ($usuario instanceof Jugador) {
                 case 'PUT':
                     if (isset($data['fin']) && $data['fin'] == true) {
                         if (isset($data['id'])) {
-                            ControladorPartida::rendirse($idJugador, $data['id']);
+                            ControladorJuego::rendirse($idJugador, $data['id']);
                         } else {
-                            ControladorPartida::rendirse($idJugador);
+                            ControladorJuego::rendirse($idJugador);
                         }
                     } else {
                         $cod = 400;
@@ -128,7 +128,7 @@ if ($usuario instanceof Jugador) {
 
         case 'pass':
             if ($requestMethod == 'GET') {
-                echo ControladorJugador::solicitarPassword($data);
+                echo ControladorUsuario::solicitarPassword($data);
             } else {
                 $cod = 405;
                 $mes = 'Verbo no soportado.';
@@ -141,7 +141,7 @@ if ($usuario instanceof Jugador) {
 
         case 'ranking':
             if ($requestMethod == 'GET') {
-                echo ControladorJugador::getRankingJugadores();
+                echo ControladorUsuario::getRankingJugadores();
             } else {
                 $cod = 405;
                 $mes = 'Verbo no soportado.';
