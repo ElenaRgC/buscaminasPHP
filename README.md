@@ -19,7 +19,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
   - [Jugador](#jugador-1)
 
 ## Objetivos
-![](https://geps.dev/progress/77)
+![](https://geps.dev/progress/69)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
@@ -34,9 +34,12 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
 -   [x] Crear un tablero, guardarlo en la BBDD y retornarlo.
 -   [x] Comprobar partidas abiertas antes de crear un tablero nuevo.
 -   [x] Abrir casillas, actualizarlas en la BBDD y mostrarlas al usuario.
--   [ ] Crear condición de victoria. Cerrar partidas.
--   [ ] Rendirse (cerrar partidas voluntariamente).
+-   [x] Crear condición de victoria. Cerrar partidas.
+-   [x] Rendirse (cerrar partidas voluntariamente).
 -   [ ] Solicitud de cambio de contraseña.
+-   [ ] Mostrar ranking de usuarios.
+-   [ ] Refactorizar el código.
+-   [ ] Documentación con PHPDoc.
 
 ### Opcional
 
