@@ -7,14 +7,14 @@ class ControladorJuego
 {
     public static function login($datosRecibidos)
     {
-        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['user-email']);
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);
 
         if ($jugador instanceof Jugador) {
-            if ($jugador->getEmail() == $datosRecibidos['user-email'] && $jugador->getPass() == md5($datosRecibidos['user-pass'])) {
+            if ($jugador->getEmail() == $datosRecibidos['email'] && $jugador->getPass() == md5($datosRecibidos['pass'])) {
                 return $jugador;
-            } elseif ($jugador->getEmail() != $datosRecibidos['user-email'] || $jugador->getPass() != md5($datosRecibidos['user-pass'])) {
+            } elseif ($jugador->getEmail() != $datosRecibidos['email'] || $jugador->getPass() != md5($datosRecibidos['pass'])) {
                 $cod = 401;
-                $mes = 'Usuario o contraseña incorrectos.';
+                $mes = 'Usuario o contrasena incorrectos.';
 
                 header('HTTP/1.1 '.$cod.' '.$mes);
 
@@ -22,7 +22,7 @@ class ControladorJuego
             }
         } else {
             $cod = 401;
-            $mes = 'Usuario o contraseña incorrectos.';
+            $mes = 'Usuario o contrasena incorrectos.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
@@ -32,42 +32,30 @@ class ControladorJuego
 
     public static function getIdJugadorLogeado($datosRecibidos)
     {
-        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['user-email']);
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);
 
         return $jugador->getId();
     }
 
     public static function insertPartida($idJugador, $longitud = 10, $bombas = 2)
     {
-        $partidasAbiertas = ControladorJuego::getPartidasAbiertas($idJugador);
+        $partida = Factoria::crearPartidaNueva($idJugador, $longitud, $bombas);
 
-        if ($partidasAbiertas == 0) {
-            $partida = Factoria::crearPartidaNueva($idJugador, $longitud, $bombas);
-
-            if (Conexion::insertPartida($partida)) {
-                $cod = 201;
-                $mes = 'Partida creada';
-
-                header('HTTP/1.1 '.$cod.' '.$mes);
-
-                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
-                'Partida' => ControladorJuego::getPartidaReciente($idJugador)]);
-            } else {
-                $cod = 500;
-                $mes = 'Error en la base de datos.';
-
-                header('HTTP/1.1 '.$cod.' '.$mes);
-
-                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
-            }
-        } else {
-            $cod = 204;
-            $mes = 'Ya hay partidas abiertas.';
+        if (Conexion::insertPartida($partida)) {
+            $cod = 201;
+            $mes = 'Partida creada';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
-            'Partidas Abiertas' => $partidasAbiertas]);
+            'Partida' => ControladorJuego::getPartidaReciente($idJugador)]);
+        } else {
+            $cod = 500;
+            $mes = 'Error en la base de datos.';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         }
     }
 
@@ -82,7 +70,7 @@ class ControladorJuego
         }
     }
 
-    public static function getPartidabyId($id, $idJugador)
+    public static function getPartidabyId($id)
     {
         $partida = Conexion::getPartidabyId($id);
 
@@ -169,9 +157,24 @@ class ControladorJuego
     {
         if ($idPartida == null) {
             $partida = ControladorJuego::getPartidaReciente($idJugador);
-            $idPartida = $partida->getId();
-        }
+            if ($partida instanceof Partida) {
+                $idPartida = $partida->getId();
+                ControladorJuego::finPartida($idJugador, $idPartida, -1);
 
-        ControladorJuego::finPartida($idJugador, $idPartida, -1);
+                $cod = 200;
+                $mes = 'Partida cerrada.';
+
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
+                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Partida' => $partida]);
+            } else {
+                $cod = 201;
+                $mes = 'No hay partidas abiertas.';
+
+                header('HTTP/1.1 '.$cod.' '.$mes);
+
+                return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+            }
+        }
     }
 }

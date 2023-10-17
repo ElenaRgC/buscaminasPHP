@@ -3,6 +3,7 @@
 include_once 'auxiliar/Conexion.php';
 include_once 'controllers/ControladorAdministrador.php';
 include_once 'controllers/ControladorJuego.php';
+include_once 'controllers/ControladorUsuario.php';
 
 header('Content-Type:application/json');
 
@@ -102,9 +103,9 @@ if ($usuario instanceof Jugador) {
                 case 'PUT':
                     if (isset($data['fin']) && $data['fin'] == true) {
                         if (isset($data['id'])) {
-                            ControladorJuego::rendirse($idJugador, $data['game-id']);
+                            echo ControladorJuego::rendirse($idJugador, $data['game-id']);
                         } else {
-                            ControladorJuego::rendirse($idJugador);
+                            echo ControladorJuego::rendirse($idJugador);
                         }
                     } else {
                         $cod = 400;

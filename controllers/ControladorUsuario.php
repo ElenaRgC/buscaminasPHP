@@ -8,6 +8,8 @@ require_once __DIR__.'\..\phpmailer\src\SMTP.php';
 require_once __DIR__.'\..\auxiliar\Conexion.php';
 require_once __DIR__.'\..\auxiliar\Factoria.php';
 require_once __DIR__.'\..\auxiliar\Constantes.php';
+include_once 'ControladorAdministrador.php';
+include_once 'ControladorJuego.php';
 
 class ControladorUsuario
 {
@@ -34,7 +36,7 @@ class ControladorUsuario
 
     public static function solicitarPassword($datosRecibidos)
     {
-        $id = ControladorAdministrador::getIdJugadorLogeado($datosRecibidos);
+        $id = ControladorJuego::getIdJugadorLogeado($datosRecibidos);
         $jugador = ControladorAdministrador::getJugadorFromId($id);
 
         $newPassword = rand(1000, 9999);
