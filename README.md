@@ -52,7 +52,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
 -   [x] Abrir casillas, actualizarlas en la BBDD y mostrarlas al usuario.
 -   [x] Crear condición de victoria. Cerrar partidas.
 -   [x] Rendirse (cerrar partidas voluntariamente).
--   [ ] Solicitud de cambio de contraseña.
+-   [x] Solicitud de cambio de contraseña.
 -   [x] Mostrar ranking de usuarios.
 -   [ ] Refactorizar el código.
 -   [ ] Documentación con PHPDoc.
@@ -114,7 +114,7 @@ Como en el resto de casos en la ruta /admin, sólo serán satisfactorias las lla
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
-    "nombre": "nombreUsuario",
+    "user-nombre": "nombreUsuario",
     "user-email": "email@usuario.com",
     "user-pass": "contraseñaUsuario"
 }
@@ -131,8 +131,8 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
-    "id": "IDusuario",
-    "nombre": "nombreUsuario",
+    "user-id": "IDusuario",
+    "user-nombre": "nombreUsuario",
     "user-email": "email@usuario.com"
 }
 ```
@@ -145,7 +145,7 @@ No se modificarán ni su id o número de partidas jugadas y/o ganadas.
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
-    "id": "IDusuario",
+    "user-id": "IDusuario",
     "user-pass": "nuevaConstraseña"
 }
 ```
@@ -160,7 +160,7 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
-    "id": "idUsuario"
+    "user-id": "idUsuario"
 }
 ```
 
@@ -206,7 +206,7 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
-    "id": "IDpartida",
+    "game-id": "IDpartida",
     "casilla": 1
 }
 ```
@@ -233,7 +233,7 @@ Aceptará cualquier valor distinto de 0 o `false`.
 {
     "email": "tucorreo@email.com",
     "pass": "tucontraseña",
-    "id": "IDpartida",
+    "game-id": "IDpartida",
     "fin": 1
 }
 ```
@@ -245,6 +245,8 @@ Aceptará cualquier valor distinto de 0 o `false`.
 #### GET /ranking
 
 ```json
+{
     "email": "tucorreo@email.com",
     "pass": "tucontraseña"
+}
 ```

@@ -33,13 +33,13 @@ if ($usuario instanceof Jugador) {
                         break;
                     case 'PUT':
                         if (isset($data['user-pass'])) {
-                            echo ControladorAdministrador::updatePassword($data['id'], $data['pass']);
+                            echo ControladorAdministrador::updatePassword($data['user-id'], $data['user-pass']);
                         } else {
                             echo ControladorAdministrador::updateJugador($data);
                         }
                         break;
                     case 'DELETE':
-                        echo ControladorAdministrador::deleteJugador($data['id']);
+                        echo ControladorAdministrador::deleteJugador($data['user-id']);
                         break;
                     default:
                         $cod = 405;
@@ -84,8 +84,8 @@ if ($usuario instanceof Jugador) {
 
                 case 'POST':
                     if (isset($data['casilla'])) {
-                        if (isset($data['id'])) {
-                            echo ControladorJuego::abrirCasilla($data['casilla'], $idJugador, $data['id']);
+                        if (isset($data['game-id'])) {
+                            echo ControladorJuego::abrirCasilla($data['casilla'], $idJugador, $data['game-id']);
                         } else {
                             echo ControladorJuego::abrirCasilla($data['casilla'], $idJugador);
                         }
@@ -102,7 +102,7 @@ if ($usuario instanceof Jugador) {
                 case 'PUT':
                     if (isset($data['fin']) && $data['fin'] == true) {
                         if (isset($data['id'])) {
-                            ControladorJuego::rendirse($idJugador, $data['id']);
+                            ControladorJuego::rendirse($idJugador, $data['game-id']);
                         } else {
                             ControladorJuego::rendirse($idJugador);
                         }

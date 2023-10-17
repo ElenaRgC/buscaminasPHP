@@ -7,12 +7,12 @@ class ControladorJuego
 {
     public static function login($datosRecibidos)
     {
-        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['user-email']);
 
         if ($jugador instanceof Jugador) {
-            if ($jugador->getEmail() == $datosRecibidos['email'] && $jugador->getPass() == md5($datosRecibidos['pass'])) {
+            if ($jugador->getEmail() == $datosRecibidos['user-email'] && $jugador->getPass() == md5($datosRecibidos['user-pass'])) {
                 return $jugador;
-            } elseif ($jugador->getEmail() != $datosRecibidos['email'] || $jugador->getPass() != md5($datosRecibidos['pass'])) {
+            } elseif ($jugador->getEmail() != $datosRecibidos['user-email'] || $jugador->getPass() != md5($datosRecibidos['user-pass'])) {
                 $cod = 401;
                 $mes = 'Usuario o contraseña incorrectos.';
 
@@ -32,7 +32,7 @@ class ControladorJuego
 
     public static function getIdJugadorLogeado($datosRecibidos)
     {
-        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['email']);
+        $jugador = Conexion::getJugadorFromEmail($datosRecibidos['user-email']);
 
         return $jugador->getId();
     }

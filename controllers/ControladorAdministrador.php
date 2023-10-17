@@ -72,7 +72,7 @@ class ControladorAdministrador
 
     public static function updateJugador($datosRecibidos)
     {
-        $jugador = Factoria::crearJugador($datosRecibidos['id'], $datosRecibidos['nombre'], $datosRecibidos['user-email'], 0, 0, 0, 0);
+        $jugador = Factoria::crearJugador($datosRecibidos['user-id'], $datosRecibidos['user-nombre'], $datosRecibidos['user-email'], 0, 0, 0, 0);
 
         if (Conexion::updateJugador($jugador)) {
             $cod = 200;
