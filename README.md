@@ -5,20 +5,34 @@
 Este desafío consiste en la creación de un servicio web para gestionar partidas de buscaminas en una dimensión con PHP y mySQL.
 Habrá dos tipos de usuarios: jugadores y administradores, donde los segundos podrán realizar todas las acciones que haga el primero, pero no en caso contrario.
 
-- Los jugadores podrán crear partidas, abrir casillas, rendirse, solicitar un cambio de contraseña y ver el ranking de jugadores.
-- Los administradores podrán crear, buscar, modificar y eliminar usuarios, así como todas las funciones anteriores.
+-   Los jugadores podrán crear partidas, abrir casillas, rendirse, solicitar un cambio de contraseña y ver el ranking de jugadores.
+-   Los administradores podrán crear, buscar, modificar y eliminar usuarios, así como todas las funciones anteriores.
 
 Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a la vez. En esta solución se ha resuelto de forma que, por defecto, un jugador acceda a la última partida que ha creado o a una partida de la que conozca su ID. Si intenta abrir una casilla en una partida que no está abierta o no existe, se le mostrará un listado de las partidas abiertas bajo su ID
 
 ## Contenido
 
-- [Objetivos](#objetivos)
-- [Estructura de la Base de Datos](#estructura-de-la-base-de-datos)
-- [Rutas admitidas y JSON esperados](#rutas-admitidas-y-json-esperados)
-  - [Administrador](#administrador)
-  - [Jugador](#jugador-1)
+-   [Buscaminas](#buscaminas)
+    -   [Contenido](#contenido)
+    -   [Objetivos](#objetivos)
+        -   [Opcional](#opcional)
+    -   [Estructura de la Base de Datos](#estructura-de-la-base-de-datos)
+        -   [Jugador](#jugador)
+        -   [Partida](#partida)
+    -   [Rutas admitidas y JSON esperados](#rutas-admitidas-y-json-esperados)
+        -   [Administrador](#administrador)
+            -   [GET /admin](#get-admin)
+            -   [POST /admin](#post-admin)
+            -   [PUT /admin](#put-admin)
+            -   [DELETE /admin](#delete-admin)
+        -   [Jugador](#jugador-1)
+            -   [GET /jugar](#get-jugar)
+            -   [GET /jugar/longitud/minas](#get-jugarlongitudminas)
+            -   [POST /jugar](#post-jugar)
+            -   [PUT /jugar](#put-jugar)
 
 ## Objetivos
+
 ![](https://geps.dev/progress/69)
 
 -   [x] Definir la Base de Datos.
@@ -78,7 +92,17 @@ Puede crearse la base de datos con el fichero `database_structure.sql`.
 }
 ```
 
-Como en el resto de casos en la ruta /admin, sólo serán satisfactorias las llamadas a la API si estos datos son de un administrador.
+-   Para buscar un jugador concreto conocida su id.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña",
+    "user-id": "IDusuario"
+}
+```
+
+Como en el resto de casos en la ruta /admin, sólo serán satisfactorias las llamadas a la API si estos datos son de un administrador correctamente logeado.
 
 #### POST /admin
 
