@@ -30,10 +30,12 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
             -   [GET /jugar/longitud/minas](#get-jugarlongitudminas)
             -   [POST /jugar](#post-jugar)
             -   [PUT /jugar](#put-jugar)
+        -   [Ranking](#ranking)
+            -   [GET /ranking](#get-ranking)
 
 ## Objetivos
 
-![](https://geps.dev/progress/69)
+![](https://geps.dev/progress/81)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
@@ -51,7 +53,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
 -   [x] Crear condición de victoria. Cerrar partidas.
 -   [x] Rendirse (cerrar partidas voluntariamente).
 -   [ ] Solicitud de cambio de contraseña.
--   [ ] Mostrar ranking de usuarios.
+-   [x] Mostrar ranking de usuarios.
 -   [ ] Refactorizar el código.
 -   [ ] Documentación con PHPDoc.
 
@@ -237,3 +239,12 @@ Aceptará cualquier valor distinto de 0 o `false`.
 ```
 
 Aceptará cualquier valor distinto de 0 o `false`.
+
+### Ranking
+
+#### GET /ranking
+
+```json
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña"
+```
