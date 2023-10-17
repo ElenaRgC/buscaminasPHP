@@ -81,10 +81,21 @@ class ControladorPartida
         }
 
         if ($partida instanceof Partida) {
+            $tablero = $partida->getTableroSolucion();
             $tableroNuevo = $partida->getTableroJugador();
-            $tableroNuevo[$casilla - 1] = $partida->getTableroSolucion()[$casilla - 1];
+            $tableroNuevo[$casilla - 1] = $tablero[$casilla - 1];
 
             $partida->setTableroJugador($tableroNuevo);
+
+            if ($tableroNuevo[$casilla - 1] == '*') {
+                $partida->setFin(-1);
+                ControladorPartida::finPartida($idJugador, $partida->getId(), -1);
+            }
+
+            if (substr_count($tableroNuevo, '-') == substr_count($tablero, '*')) {
+                $partida->setFin(1);
+                ControladorPartida::finPartida($idJugador, $partida->getId(), 1);
+            }
 
             if (Conexion::updateTableroJugador($partida)) {
                 $cod = 200;
@@ -103,12 +114,32 @@ class ControladorPartida
             }
         } else {
             $cod = 201;
-            $mes = 'Id no encontrada.';
+            $mes = 'Partida no encontrada.';
 
             header('HTTP/1.1 '.$cod.' '.$mes);
 
             return json_encode(['Codigo' => $cod, 'Mensaje' => $mes,
             'Partidas abiertas' => ControladorPartida::getPartidasAbiertas($idJugador)]);
         }
+    }
+
+    public static function finPartida($idJugador, $idPartida, $resultado)
+    {
+        Conexion::closePartida($idPartida, $resultado);
+
+        if ($resultado = -1) {
+            $resultado = 0;
+        }
+        Conexion::updateStatsJugador($idJugador, $resultado);
+    }
+
+    public static function rendirse($idJugador, $idPartida = null)
+    {
+        if ($idPartida == null) {
+            $partida = ControladorPartida::getPartidaReciente($idJugador);
+            $idPartida = $partida->getId();
+        }
+
+        ControladorPartida::finPartida($idJugador, $idPartida, -1);
     }
 }

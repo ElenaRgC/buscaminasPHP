@@ -95,6 +95,23 @@ if ($usuario instanceof Jugador) {
                     }
 
                     break;
+                case 'PUT':
+                    if (isset($data['fin']) && $data['fin'] == true) {
+                        if (isset($data['id'])) {
+                            ControladorPartida::rendirse($idJugador, $data['id']);
+                        } else {
+                            ControladorPartida::rendirse($idJugador);
+                        }
+                    } else {
+                        $cod = 400;
+                        $mes = 'Argumentos invalidos.';
+
+                        header('HTTP/1.1 '.$cod.' '.$mes);
+
+                        echo json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+                    }
+                    break;
+
                 default:
                     $cod = 405;
                     $mes = 'Verbo no soportado.';
