@@ -8,7 +8,9 @@ Habrá dos tipos de usuarios: jugadores y administradores, donde los segundos po
 -   Los jugadores podrán crear partidas, abrir casillas, rendirse, solicitar un cambio de contraseña y ver el ranking de jugadores.
 -   Los administradores podrán crear, buscar, modificar y eliminar usuarios, así como todas las funciones anteriores.
 
-Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a la vez. En esta solución se ha resuelto de forma que, por defecto, un jugador acceda a la última partida que ha creado o a una partida de la que conozca su ID. Si intenta abrir una casilla en una partida que no está abierta o no existe, se le mostrará un listado de las partidas abiertas bajo su ID
+**Los jugadores ganarán cuando revelen todas las casillas que no sean bombas, perderán si encuentran una.**
+
+Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a la vez. En esta solución se ha resuelto de forma que, por defecto, un jugador acceda a la última partida que ha creado o a una partida de la que conozca su ID. Si intenta abrir una casilla en una partida que no está abierta o no existe, se le mostrará un listado de las partidas abiertas bajo su ID.
 
 ## Contenido
 
@@ -20,19 +22,19 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
         -   [Jugador](#jugador)
         -   [Partida](#partida)
     -   [Rutas admitidas y JSON esperados](#rutas-admitidas-y-json-esperados)
-        -   [Administrador](#administrador)
+        -   [Administración](#administraci%C3%B3n)
             -   [GET /admin](#get-admin)
             -   [POST /admin](#post-admin)
             -   [PUT /admin](#put-admin)
             -   [DELETE /admin](#delete-admin)
-        -   [Jugador](#jugador-1)
+        -   [Juego](#juego)
             -   [GET /jugar](#get-jugar)
             -   [GET /jugar/longitud/minas](#get-jugarlongitudminas)
             -   [POST /jugar](#post-jugar)
             -   [PUT /jugar](#put-jugar)
-        -   [Ranking](#ranking)
+        -   [Otras funcionalidades](#otras-funcionalidades)
             -   [GET /ranking](#get-ranking)
-
+            -   [GET /pass](#get-pass)
 ## Objetivos
 
 ![](https://geps.dev/progress/94)
@@ -81,7 +83,7 @@ Puede crearse la base de datos con el fichero `database_structure.sql`.
 
 ## Rutas admitidas y JSON esperados
 
-### Administrador
+### Administración
 
 #### GET /admin
 
@@ -164,7 +166,7 @@ Su contraseña se almacenará en la BBDD con un hash MD5.
 }
 ```
 
-### Jugador
+### Juego
 
 #### GET /jugar
 
@@ -240,9 +242,11 @@ Aceptará cualquier valor distinto de 0 o `false`.
 
 Aceptará cualquier valor distinto de 0 o `false`.
 
-### Ranking
+### Otras funcionalidades
 
 #### GET /ranking
+
+Para ver en orden los jugadores con más partidas ganadas.
 
 ```json
 {
@@ -250,3 +254,16 @@ Aceptará cualquier valor distinto de 0 o `false`.
     "pass": "tucontraseña"
 }
 ```
+
+#### GET /pass
+
+Para solicitar una nueva contraseña.
+
+```json
+{
+    "email": "tucorreo@email.com",
+    "pass": "tucontraseña"
+}
+```
+
+Se recibirá al email de la cuenta un correo electrónico con la contraseña nueva, que se almacenará en la base de datos con un hash md5.
