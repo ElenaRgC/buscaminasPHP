@@ -22,7 +22,11 @@ if ($usuario instanceof Jugador) {
             if ($usuario->getEsAdmin()) {
                 switch ($requestMethod) {
                     case 'GET':
-                        echo ControladorJugador::getJugadores();
+                        if (isset($data['user-id'])) {
+                            echo ControladorJugador::getJugadorFromId($data['user-id']);
+                        } else {
+                            echo ControladorJugador::getJugadores();
+                        }
                         break;
                     case 'POST':
                         echo ControladorJugador::insertJugador($data);

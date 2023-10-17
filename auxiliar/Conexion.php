@@ -58,6 +58,35 @@ class Conexion
         }
     }
 
+    public static function getJugadorFromId($idJugador)
+    {
+        self::$conexion = self::conectar();
+
+        $query = 'SELECT * FROM jugador WHERE id = ?';
+
+        $stmt = self::$conexion->prepare($query);
+
+        try {
+            $stmt->bind_param('i', $idJugador);
+            $stmt->execute();
+            $resultados = $stmt->get_result();
+
+            $j = 0;
+
+            while ($fila = $resultados->fetch_array()) {
+                $j = Factoria::crearJugador($fila[0], $fila[1], $fila[2], $fila[3], $fila[4], $fila[5], $fila[6]);
+            }
+
+            $resultados->free_result();
+
+            return $j;
+        } catch (Exception $e) {
+            return 0;
+        } finally {
+            self::desconectar();
+        }
+    }
+
     public static function getJugadorFromEmail($email)
     {
         self::$conexion = self::conectar();

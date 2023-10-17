@@ -30,6 +30,27 @@ class ControladorJugador
         }
     }
 
+    public static function getJugadorFromId($idJugador)
+    {
+        $jugador = Conexion::getJugadorFromId($idJugador);
+
+        if ($jugador instanceof Jugador) {
+            $cod = 200;
+            $mes = 'OK';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes, 'Jugador' => $jugador]);
+        } else {
+            $cod = 201;
+            $mes = 'Jugador no encontrado';
+
+            header('HTTP/1.1 '.$cod.' '.$mes);
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
+        }
+    }
+
     public static function getJugadores()
     {
         $jugadores = Conexion::getJugadores();
