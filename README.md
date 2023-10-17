@@ -21,6 +21,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
     -   [Estructura de la Base de Datos](#estructura-de-la-base-de-datos)
         -   [Jugador](#jugador)
         -   [Partida](#partida)
+    -   [Documentación](#documentaci%C3%B3n)
     -   [Rutas admitidas y JSON esperados](#rutas-admitidas-y-json-esperados)
         -   [Administración](#administraci%C3%B3n)
             -   [GET /admin](#get-admin)
@@ -37,7 +38,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
             -   [GET /pass](#get-pass)
 ## Objetivos
 
-![](https://geps.dev/progress/94)
+![](https://geps.dev/progress/100)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
@@ -57,7 +58,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
 -   [x] Solicitud de cambio de contraseña.
 -   [x] Mostrar ranking de usuarios.
 -   [x] Refactorizar el código.
--   [ ] Documentación con PHPDoc.
+-   [x] Documentación con PHPDoc.
 
 ### Opcional
 
@@ -80,6 +81,11 @@ La Base de Datos sigue la siguiente estructura:
 | int(3) | int(3)    | varchar(100)    | varchar(100)   | int(2) |
 
 Puede crearse la base de datos con el fichero `database_structure.sql`.
+
+## Documentación
+
+Se han documentado las funciones de los controladores y algunas de la factoría y se ha generado un documento HTML con **Doxygen**.
+Puede accederse a la documentación desde `docs/html/index.html`.
 
 ## Rutas admitidas y JSON esperados
 
