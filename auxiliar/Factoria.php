@@ -23,6 +23,14 @@ class Factoria
         return Factoria::crearPartida(0, $idJugador, $tableroSolucion, $tableroJugador, 0);
     }
 
+    /**
+     * Crea un tablero de buscaminas lineal nuevo según su longitud y número de bombas.
+     *
+     * @param int $longitud La longitud del tablero
+     * @param int $bombas   La cantidad de bombas
+     *
+     * @return string
+     */
     private static function crearTableroSolucion($longitud, $bombas)
     {
         $tablero = array_fill(1, $longitud, 0);

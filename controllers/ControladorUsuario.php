@@ -13,6 +13,11 @@ include_once 'ControladorJuego.php';
 
 class ControladorUsuario
 {
+    /**
+     * Devuelve la clasificación de los jugadores por victorias.
+     *
+     * @return array|null
+     */
     public static function getRankingJugadores()
     {
         $jugadores = Conexion::getRankingJugadores();
@@ -34,6 +39,13 @@ class ControladorUsuario
         }
     }
 
+    /**
+     * Solicita un cambio de contraseña con PHPMailer.
+     *
+     * @param array $datosRecibidos Los datos recibidos del frontend
+     *
+     * @return array|null
+     */
     public static function solicitarPassword($datosRecibidos)
     {
         $id = ControladorJuego::getIdJugadorLogeado($datosRecibidos);
