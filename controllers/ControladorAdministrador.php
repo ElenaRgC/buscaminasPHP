@@ -51,7 +51,7 @@ class ControladorAdministrador
     public static function insertJugador($datosRecibidos)
     {
         $jugador = Factoria::crearJugador(0,
-            $datosRecibidos['nombre'],
+            $datosRecibidos['user-nombre'],
             $datosRecibidos['user-email'],
             md5($datosRecibidos['user-pass']),
             0, 0, 0
@@ -60,6 +60,8 @@ class ControladorAdministrador
         if (Conexion::insertJugador($jugador)) {
             $cod = 201;
             $mes = 'Jugador insertado';
+
+            return json_encode(['Codigo' => $cod, 'Mensaje' => $mes]);
         } else {
             $cod = 500;
             $mes = 'Error en la base de datos.';
