@@ -35,7 +35,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
 
 ## Objetivos
 
-![](https://geps.dev/progress/81)
+![](https://geps.dev/progress/94)
 
 -   [x] Definir la Base de Datos.
 -   [x] Establecer una conexión a la Base de Datos.
@@ -54,7 +54,7 @@ Opcionalmente se pide que los usuarios puedan tener abiertas varias partidas a l
 -   [x] Rendirse (cerrar partidas voluntariamente).
 -   [x] Solicitud de cambio de contraseña.
 -   [x] Mostrar ranking de usuarios.
--   [ ] Refactorizar el código.
+-   [x] Refactorizar el código.
 -   [ ] Documentación con PHPDoc.
 
 ### Opcional
